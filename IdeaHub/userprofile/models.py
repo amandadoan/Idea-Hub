@@ -11,10 +11,10 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(blank=False)
     # The profile picture and the date of birth can be i=empty
     date_of_birth = models.DateField(null=True, blank=True)
-    profle_pic = models.ImageField(null=True, blank=True)
+    profile_pic = models.ImageField(null=True, blank=True)
 
     # Management variables for django
-    is_staff = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     last_login = models.DateTimeField(default=timezone.now)

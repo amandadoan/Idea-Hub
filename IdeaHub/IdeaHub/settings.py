@@ -71,8 +71,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'IdeaHub.wsgi.application'
 
 
+# CUSTOM OPTION
 # Default user model
 AUTH_USER_MODEL = "userprofile.MyUser"
+# The default link that will be redirected to after user log in
+LOGIN_REDIRECT_URL = "/user/"
+
+
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
