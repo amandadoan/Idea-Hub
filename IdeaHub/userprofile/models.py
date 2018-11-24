@@ -4,6 +4,11 @@ from django.utils import timezone
 
 # Create your models here.
 class MyUser(AbstractBaseUser, PermissionsMixin):
+    """
+    The user model for the whole application. Also can be used in the admin interface.
+    Extending PermissionsMixin to grant the proper permission to different type of users
+    """
+
     # Basic information of user
     username = models.CharField(max_length=40, unique=True, blank=False)
     first_name = models.CharField(max_length=40, blank=False)
@@ -28,17 +33,20 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     # Must-have information when creating an account
     REQUIRED_FIELDS = ["first_name", "last_name", "email"]
 
-    # Override these methods when needed, but extending PermissionsMixin is enough
-    #
-    # def has_perm(self, perm, obj=None):
-    #     "Does the user have a specific permission?"
-    #     # Simplest possible answer: Yes, always
-    #     return True
-    #
-    # def has_module_perms(self, app_label):
-    #     "Does the user have permissions to view the app `app_label`?"
-    #     # Simplest possible answer: Yes, always
-    #     return True
+    def __str__(self):
+        return self.first_name + " " + self.last_name + " ({})".format(self.username)
+
+class Project(models.Model):
+    """
+    The model for project object
+    """
+    # Basic information of Project
+    project_name = models.CharField(max_length=150, blank=False, primary_key=True)
+    description = models.TextField(max_length=None, blank=False)
+    created_date = models.DateTimeField(verbose_name="Created date", auto_now_add=True)
+    end_date = models.DateTimeField(verbose_name="Ended date")
+    owner = models.OneToOneField("MyUser", on_delete=models.CASCADE)
+    members = models.ManyToManyField("MyUser", related_name="projects")
 
     def __str__(self):
-        return self.first_name + " " + self.last_name
+        return self.project_name

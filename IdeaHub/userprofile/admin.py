@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import MyUser
+from .models import MyUser, Project
 from .forms import CustomUserCreationForm
 
 class UserAdmin(admin.ModelAdmin):
@@ -12,3 +12,4 @@ class UserAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(MyUser, UserAdmin)
+admin.site.register(Project)
