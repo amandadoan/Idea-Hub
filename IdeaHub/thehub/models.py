@@ -1,7 +1,6 @@
 from django.db import models
-from userprofile.models import MyUser
-# Create your models here.
 
+# Create your models here.
 class Project(models.Model):
     """
     The model for project object
