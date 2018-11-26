@@ -30,6 +30,9 @@ class Post(models.Model):
     # Auto assigned the created time
     time_posted = models.DateTimeField(auto_now_add=True)
 
+    # TODO: A parent post can have many child comments/
+    parent = models.ForeignKey("Post", on_delete=models.CASCADE, blank=True, null=True)
+
     # The user and project this post belongs to
     user = models.ForeignKey("userprofile.MyUser", on_delete=models.CASCADE)
     project = models.ForeignKey("Project", on_delete=models.CASCADE)
