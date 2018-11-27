@@ -10,6 +10,16 @@ class Project(models.Model):
     description = models.TextField(max_length=None, blank=False)
     created_date = models.DateTimeField(verbose_name="Created date", auto_now_add=True)
     end_date = models.DateTimeField(verbose_name="Ended date")
+    # Category
+    CATEGORIES = (("Designing", "Designing"),
+                    ("Coding", "Coding"),
+                    ("Cooking", "Cooking"),
+                    ("Photography", "Photography"),
+                    ("Writing", "Writing"),
+                    ("Traveling", "Traveling"),
+                    ("Other", "Other"))
+    category = models.CharField(choices=CATEGORIES, default="Other", max_length=20)
+
     # The owner is the person who creatde the project, whereas the members are ones participating in the project
     owner = models.OneToOneField("userprofile.MyUser", on_delete=models.CASCADE)
     members = models.ManyToManyField("userprofile.MyUser", related_name="projects")
@@ -22,7 +32,7 @@ class Post(models.Model):
     The model for a post. A post can be a comment, a question, or an update on the current project
     """
 
-    TYPES = [("Q", "Question"), ("C", "Comment"), ("U", "Update")]
+    TYPES = (("Q", "Question"), ("C", "Comment"), ("U", "Update"))
 
     # Not allowed post without content
     content = models.TextField(blank=False)
