@@ -1,3 +1,23 @@
-body {
-     color: pink;
+@import url(https://fonts.googleapis.com/css?family=Oswald);
+
+.navbar{
+	background-color: #314B77;
+	height: 6em;
+}
+
+.navbar div{
+	color: white;
+}
+
+.navbar-brand{
+	margin-top: 3%;
+	font-family: 'Oswald', sans-serif;
+	font-size: 35px;
+	color:white;
+	text-indent: 2em;
+}
+
+.glyphicon {
+	margin-top: 3%;
+	font-size: 30px;
 }

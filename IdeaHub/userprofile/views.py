@@ -30,5 +30,5 @@ class SignUp(generic.CreateView):
 
 
 @login_required(login_url="login", redirect_field_name="profile")
-def profile(request):
-    return HttpResponse("Hello, you are logged in")
+def profile(request,username=None):
+    return render(request, 'userprofile/base.html')
