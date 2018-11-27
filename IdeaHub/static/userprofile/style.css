@@ -2,6 +2,7 @@
 
 .navbar{
 	background-color: #314B77;
+	color: white;
 	height: 6em;
 }
 
@@ -20,4 +21,12 @@
 .glyphicon {
 	margin-top: 3%;
 	font-size: 30px;
+}
+
+.row {
+    display: flex;
+}
+
+.column {
+    flex: 50%;
 }
