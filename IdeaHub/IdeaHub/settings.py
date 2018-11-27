@@ -78,7 +78,9 @@ AUTH_USER_MODEL = "userprofile.MyUser"
 # The default link that will be redirected to after user log in
 LOGIN_REDIRECT_URL = "/user/"
 
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
