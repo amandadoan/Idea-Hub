@@ -1,17 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Oswald);
 
-
-.entry{
-	background-color: #CDF3BF;
-	padding-left: 1em;
-	padding-right: 1em;
-
-}
 .navbar{
 	background-color: #314B77;
 	height: 6em;
 }
-
 
 .navbar-brand{
 	font-family: 'Oswald', sans-serif;
@@ -19,37 +11,6 @@
 	color: black;
 	text-indent: 2em;
 }
-
-* {
-    box-sizing: border-box;
-}
-
-.column {
-    float: left;
-    margin-bottom: 1%;
-    padding: 1em;
-    background-color:#97D67E;
-    height: calc(100vh - 1em);
-    overflow: auto;
-}
-
-.left {
-  width: 30%;
-  margin-left: 3.5%;
-
-}
-
-.right {
-margin-left: 3%;
-  width: 60%;
-}
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
 
 #navbarSupportedContent{
 	font-family: 'Oswald', sans-serif;
@@ -68,5 +29,52 @@ nav{
 .btn-logout:hover{
 	background-color: #97D67E;
 }
+
+.column {
+	float: left;
+	margin-bottom: 1%;
+	padding: 1em;
+	background-color:#97D67E;
+	height: calc(100vh - 1em);
+	overflow: auto;
+}
+
+/* Clear floats after the columns */
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.entry{
+	background-color: #CDF3BF;
+	padding: 1em 1em 0.5em 1em;
+	margin-bottom: 1em;
+}
+
+.left {
+	width: 30%;
+	margin-left: 3.5%;
+}
+
+.right {
+	margin-left: 3%;
+	width: 60%;
+}
+
+.inner-column{
+	margin-left: 3%;
+	background-color: #CDF3BF;
+	height: 30%;
+}
+
+.inner-left{
+	width: 40%;
+}
+
+.inner-right{
+	width: 50%;
+}
+
 
 
