@@ -12,28 +12,13 @@
 	height: 6em;
 }
 
-.navbar div{
-	color: white;
-}
-
-a {
-	color:white;
-}
 
 .navbar-brand{
-	margin-top: 3%;
 	font-family: 'Oswald', sans-serif;
 	font-size: 35px;
-	color: white;
+	color: black;
 	text-indent: 2em;
 }
-
-.glyphicon {
-	margin-top: 3%;
-	font-size: 30px;
-}
-
-
 
 * {
     box-sizing: border-box;
@@ -58,13 +43,30 @@ a {
 margin-left: 3%;
   width: 60%;
 }
-
 /* Clear floats after the columns */
 .row:after {
     content: "";
     display: table;
     clear: both;
 }
-.div-inline{
-    display:inline-block;
+
+
+#navbarSupportedContent{
+	font-family: 'Oswald', sans-serif;
+	font-size: 32px;
+	margin-left: 1.75em;
 }
+
+nav{
+	margin-bottom: 1.5em;
+}
+
+.btn-logout{
+	border-color: #97D67E;
+	color: #97D67E;
+}
+.btn-logout:hover{
+	background-color: #97D67E;
+}
+
+

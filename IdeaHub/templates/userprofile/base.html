@@ -18,26 +18,16 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white">My projects</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						{% for project in user.username %}
+							<a class="dropdown-item">{{ project }}</a>
+						{% endfor %}
+						</div>
+					</li>
 				</ul>
-				    <a href="{% url 'logout' %}" class="btn btn-outline-success my-2 my-sm-0">Log out</a>
-
-			</div>
-
-
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span></a></li>
-					</ul>
+			    <a href="{% url 'logout' %}" class="btn btn-outline-success my-2 my-sm-0 btn-logout">Log out</a>
 			</div>
 		</nav>
 
