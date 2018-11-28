@@ -55,7 +55,7 @@ a {
 }
 
 .right {
-	margin-left: 3%;
+margin-left: 3%;
   width: 60%;
 }
 
@@ -65,4 +65,6 @@ a {
     display: table;
     clear: both;
 }
-
+.div-inline{
+    display:inline-block;
+}
