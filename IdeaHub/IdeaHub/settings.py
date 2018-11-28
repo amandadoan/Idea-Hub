@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'userprofile',
     'thehub',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -81,6 +82,9 @@ LOGIN_REDIRECT_URL = "/user/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+# This package is used for working with WebSocket to make real-time update
+ASGI_APPLICATION = 'IdeaHub.routing.application'
+
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
