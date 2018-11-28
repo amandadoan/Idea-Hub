@@ -1,19 +1,18 @@
 {% extends 'userprofile/base.html' %}
 <!DOCTYPE html>
 <html>
-
-
     {% block content %}
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<div class="row">
-  <div class="column left">
-    <p>Some text..</p>
-  </div>
-  <div class="column right">
-    <h2>Column 2</h2>
-    <p>Some text..</p>
-  </div>
-</div>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<div class="row">
+	  <div class="column left">
+	    <p>Some text..</p>
+	  </div>
+	  <div class="column right">
+			{% for updates in user.username %}
+				<div><p class="entry">{{updates}}</p></div>
+			{% endfor%}
+	  </div>
+	</div>
 
 
     {% endblock %}
