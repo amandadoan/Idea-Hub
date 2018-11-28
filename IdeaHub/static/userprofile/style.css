@@ -76,5 +76,16 @@ nav{
 	width: 50%;
 }
 
+.project-banner{
+	background-color: #6D92D0;
+	color:white;
+	float: left;
+	margin: 0% 2% 1% 2%;
+	overflow: auto;
+	font-family: 'Oswald', sans-serif;
+	width: 96%;
+	font-size: 35px;
+	text-align: center;
+}
 
 

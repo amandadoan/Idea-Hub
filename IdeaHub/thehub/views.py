@@ -10,6 +10,8 @@ from .models import Project, Post
 def home(request):
     return render(request, 'thehub/home.html')
 
+def project(request):
+	return render(request, 'thehub/project-profile.html', {"user": request.user})
 
 def chatroom(request):
     """
