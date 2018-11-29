@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Q
 
 
 # Create your models here.
@@ -25,6 +24,16 @@ class ProjectManager(models.Manager):
         Get all projects that the given user owned
         """
         return self.filter(owner__username__iexact=username)
+
+    def get_project_by_name(self, project_name):
+        """
+        Get the project using name (return a single project, not a query set)
+        """
+        try:
+            project = self.get(project_name=project_name)
+            return project
+        except:
+            return None
 
 class Project(models.Model):
     """
