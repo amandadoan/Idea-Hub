@@ -1,6 +1,31 @@
 from django.db import models
+from django.db.models import Q
+
 
 # Create your models here.
+class ProjectManager(models.Manager):
+    """
+    The custom manager to provide higher level API for the Project objects
+    """
+    def get_all_projects(self):
+        """
+        Get all projects in the database
+        """
+        return self.all()
+
+    def get_project_of_user(self, username):
+        """
+        Get all projects (members and owner) of the given user
+        """
+        return (self.filter(members__username__iexact=username)
+                | self.filter(owner__username__iexact=username)).distinct()
+
+    def get_project_owned_by(self, username):
+        """
+        Get all projects that the given user owned
+        """
+        return self.filter(owner__username__iexact=username)
+
 class Project(models.Model):
     """
     The model for project object
@@ -22,10 +47,15 @@ class Project(models.Model):
 
     # The owner is the person who creatde the project, whereas the members are ones participating in the project
     owner = models.OneToOneField("userprofile.MyUser", on_delete=models.CASCADE)
+    # The owner should be added as member by the backend code
     members = models.ManyToManyField("userprofile.MyUser", related_name="projects")
+
+    # Set the manager of this model
+    objects = ProjectManager()
 
     def __str__(self):
         return self.project_name
+
 
 class Post(models.Model):
     """
