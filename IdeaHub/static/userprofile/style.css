@@ -66,6 +66,7 @@ nav{
 	margin-left: 3%;
 	background-color: #CDF3BF;
 	height: 30%;
+	margin-bottom: 1em;
 }
 
 .inner-left{
@@ -88,4 +89,8 @@ nav{
 	text-align: center;
 }
 
+.profile-info{
+	margin-top: 1em;
+	margin-left: 1em;
+}
 

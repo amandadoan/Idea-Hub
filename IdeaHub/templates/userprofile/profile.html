@@ -1,14 +1,12 @@
 {% extends 'userprofile/base.html' %}
-<!DOCTYPE html>
-<html>
-    {% block content %}
+{% block content %}
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<div class="row">
 	  <div class="column left">
 	    <div class="column inner-left inner-column">Profile pic</div>
 	    <div class="column inner-right inner-column">Updates and questions unread</div>
-	    <div class="column">
-	    	{{user.first_name}} {{user.last_name}} </br>
+	    <div class="profile-info">
+	    	{{user.first_name}} {{user.last_name}}</br>
 	    </div>
 	  </div>
 	  <div class="column right">
@@ -17,10 +15,4 @@
 			{% endfor %}
 	  </div>
 	</div>
-
-
-
-
-    {% endblock %}
-
-</html>
+{% endblock %}

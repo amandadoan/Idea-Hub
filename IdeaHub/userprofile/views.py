@@ -7,6 +7,7 @@ from django.views import generic
 from django.urls import reverse_lazy
 
 from .forms import CustomUserCreationForm
+from thehub import models
 
 
 # Create your views here.
@@ -31,4 +32,5 @@ class SignUp(generic.CreateView):
 
 @login_required(login_url="login", redirect_field_name="profile")
 def profile(request,username=None):
-    return render(request, 'userprofile/profile.html')
+    projects = models.Project.objects.get_project_of_user(request.user.username)
+    return render(request, 'userprofile/profile.html', {"projects":projects})

@@ -2,16 +2,20 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.safestring import mark_safe
 import json
+from . import models
 
 from .models import Project, Post
 # Create your views here.
 
 @login_required(login_url="login")
 def home(request):
-    return render(request, 'thehub/home.html')
+	projects = models.Project.objects.get_project_of_user(request.user.username)
+	return render(request, 'thehub/home.html', {"projects":projects})
 
-def project(request):
-	return render(request, 'thehub/project-profile.html', {"user": request.user})
+def project(request, project_name):
+	projects = models.Project.objects.get_project_of_user(request.user.username)
+	project = models.Project.objects.get_project_by_name(project_name)
+	return render(request, 'thehub/project-profile.html', {"user": request.user, "projects":projects, "project":project})
 
 def chatroom(request):
     """

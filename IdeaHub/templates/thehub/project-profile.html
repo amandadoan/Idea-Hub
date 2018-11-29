@@ -1,24 +1,19 @@
 {% extends 'userprofile/base.html' %}
-    {% block content %}
+{% block content %}
 	<div class="row">
-		<div class="project-banner">HELLO</div>
+		<div class="project-banner">{{project.project_name}}</div>
 	</div>
 	<div class="row">
 	  <div class="column left">
-	    <div class="column inner-left inner-column">Profile pic</div>
-	    <div class="column inner-right inner-column">Updates and questions unread</div>
-	    <div class="column">
-	    	{{user.first_name}} {{user.last_name}} </br>
+	    <div class="profile-info">
+	    	{{user.first_name}} asdfasfd{{user.last_name}} </br>
 	    </div>
 	  </div>
 	  <div class="column right">
 			{% for updates in user.username %}
 				<div class="entry"><p>{{updates}}</p></div>
+				<div class="entry"><p>{{updates}}</p></div>
 			{% endfor %}
 	  </div>
 	</div>
-
-
-
-
-    {% endblock %}
+{% endblock %}

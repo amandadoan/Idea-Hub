@@ -21,8 +21,8 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white">My projects</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						{% for project in user.username %}
-							<a class="dropdown-item" href="{% url 'project' %}">{{ project }}</a>
+						{% for project in projects %}
+							<a class="dropdown-item" href="{% url 'project' project.project_name %}">{{ project }}</a>
 						{% endfor %}
 						</div>
 					</li>
