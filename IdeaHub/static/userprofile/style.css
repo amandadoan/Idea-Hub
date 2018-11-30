@@ -50,6 +50,7 @@ nav{
 	background-color: #CDF3BF;
 	padding: 1em 1em 1em 1em;
 	margin-bottom: 1em;
+	border-radius: 8px;
 }
 
 .left {
@@ -113,11 +114,12 @@ h6 {
 	background-color: #97D67E;
 	margin-left: 1.5em;
 	padding-left: 1em;
+	border-radius: 8px;
 }
 
 .entry button{
 	position: relative;
-	right: -85%;
+	right: -87%;
 	bottom: -0.5em;
 	background-color: #6D92D0;
 	color: white;
