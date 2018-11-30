@@ -11,10 +11,9 @@
 			{% block title %}
 			{% endblock %}
 		</title>
-		{% if user.is_authenticated %}
 		<nav class="navbar navbar-expand-lg navbar-light">
 			<a class="navbar-brand" href="{% url 'home' %}" style="color:white">Home</a>
-			<a class="navbar-brand" href="{% url 'profile' user.username %}" style="color:white">{{user.username}}</a>
+			<a class="navbar-brand" href="{% url 'profile' %}" style="color:white">{{user.username}}</a>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
@@ -30,10 +29,6 @@
 			    <a href="{% url 'logout' %}" class="btn btn-outline-success my-2 my-sm-0 btn-logout">Log out</a>
 			</div>
 		</nav>
-
-		{% else %}
-			<h1>Please log in.</h1>
-		{% endif %}
 	</head>
 	<body>
 	{% block content %}

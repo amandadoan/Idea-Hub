@@ -10,8 +10,9 @@ from .models import Project, Post
 @login_required(login_url="login")
 def home(request):
 	projects = models.Project.objects.get_project_of_user(request.user.username)
-	return render(request, 'thehub/home.html', {"projects":projects})
+	return render(request, 'thehub/home.html', {"user": request.user, "projects":projects})
 
+@login_required(login_url="login")
 def project(request, project_name):
 	projects = models.Project.objects.get_project_of_user(request.user.username)
 	project = models.Project.objects.get_project_by_name(project_name)
@@ -21,14 +22,3 @@ def project(request, project_name):
 					"projects":projects,
 					"project":project,
 					"posts": posts})
-
-def chatroom(request):
-    """
-    Experimenting work with django channels
-    """
-    return render(request, template_name="thehub/chat.html")
-
-def room(request, room_name):
-    return render(request, 'thehub/room.html', {
-        'room_name_json': mark_safe(json.dumps(room_name))
-    })
