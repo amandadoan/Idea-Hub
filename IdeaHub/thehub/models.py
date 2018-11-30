@@ -65,6 +65,30 @@ class Project(models.Model):
     def __str__(self):
         return self.project_name
 
+# ============================================================================================
+class PostManager(models.Manager):
+    """
+    The custom manager to manage the database of Post
+    """
+    def get_posts_of_user(self, username):
+        """
+        Method to get all the posts of the given usename
+        """
+        return self.filter(user__username__iexact=username)
+
+    def get_parent_posts_of_project(self, project_name):
+        """
+        Method to get all the post that are parents(direct comment) of the given project
+        """
+        # This query all posts that do not have parent (they are the root)
+        return self.filter(project__project_name__iexact=project_name).filter(parent__isnull=True)
+
+    def get_chilren_of_post(self, post_id):
+        """
+        Method to get all the children of a given post (response to that post)
+        """
+        return self.filter(parent__pk__iexact=post_id)
+
 
 class Post(models.Model):
     """
@@ -85,6 +109,9 @@ class Post(models.Model):
     # The user and project this post belongs to
     user = models.ForeignKey("userprofile.MyUser", on_delete=models.CASCADE)
     project = models.ForeignKey("Project", on_delete=models.CASCADE)
+
+    # Custom manager
+    objects = PostManager()
 
     def __str__(self):
         return self.content
