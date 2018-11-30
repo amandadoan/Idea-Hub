@@ -47,10 +47,11 @@ def profile(request):
     children_posts = {}
     if posts:
         # Remove duplicate if needed
-        posts = posts.distinct().order_by("time_posted")
+        posts = posts.distinct().order_by("-time_posted")
         # Get all children of relevant post
         for post in posts:
             post_id = post.pk
+            # Let's children post be ordered by oldest first to make a flow for the conversation
             children_posts[post_id] = hubModels.Post.objects.get_chilren_of_post(post_id)
 
 
