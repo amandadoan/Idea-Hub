@@ -18,7 +18,9 @@
 	  </div>
 	  <div class="column right">
 			{% for post in posts %}
-				<div class="entry"><p>{{post.content}}</p></div>
+				<div class="entry">
+					<p><span style="font-weight:bold">{{post.get_type_display}}:</span> {{post.content}}</p>
+				</div>
 			{% endfor %}
 	  </div>
 	</div>
