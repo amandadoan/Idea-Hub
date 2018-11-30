@@ -43,15 +43,15 @@ def profile(request):
                 posts = posts | project_posts
             else:
                 posts = project_posts
+
+    children_posts = {}
     if posts:
         # Remove duplicate if needed
         posts = posts.distinct().order_by("time_posted")
-
-    # Get all children of relevant post
-    children_posts = {}
-    for post in posts:
-        post_id = post.pk
-        children_posts[post_id] = hubModels.Post.objects.get_chilren_of_post(post_id)
+        # Get all children of relevant post
+        for post in posts:
+            post_id = post.pk
+            children_posts[post_id] = hubModels.Post.objects.get_chilren_of_post(post_id)
 
 
     return render(request, 'userprofile/profile.html', {"projects":projects,
