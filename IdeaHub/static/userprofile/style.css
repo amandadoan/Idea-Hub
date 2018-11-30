@@ -94,3 +94,18 @@ nav{
 	margin-left: 1em;
 }
 
+h6 {
+	display: inline;
+}
+
+.project-actions{
+	text-align:center;
+}
+
+.project-actions button {
+	margin: 0 auto;
+	margin-bottom: 2em;
+	margin-top: 3em;
+	display: block;
+}
+
