@@ -10,11 +10,16 @@
 	    </div>
 	  </div>
 	  <div class="column right">
-			{% for updates in user.username %}
-				<div class="entry"><p>{{updates}}</p>
-					<div class="response">hello</div>
+			{% for post in posts %}
+				<div class="entry"><p>{{post.content}}</p>
+					{% for id, child in children_posts.items %}
+						{% ifequal id post.pk %}
+							{% for child_post in child %}
+								<div class="response">{{child_post.content}}</div>
+							{% endfor %}
+						{% endifequal %}
+					{% endfor %}
 					<button type="button" class="btn">Respond</button>
-						
 					</div>
 			{% endfor %}
 	  </div>

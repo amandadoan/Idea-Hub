@@ -7,7 +7,7 @@ from django.views import generic
 from django.urls import reverse_lazy
 
 from .forms import CustomUserCreationForm
-from thehub import models
+from thehub import models as hubModels
 
 
 # Create your views here.
@@ -21,7 +21,7 @@ class SignUp(generic.CreateView):
 
     def get(self, request):
         # Customize the get method, the post method is handled for us by built-in function
-        
+
         if request.user.is_authenticated:
             # Redirect user to the profile page if they already login and try to sign up
             return redirect("profile")
@@ -32,5 +32,28 @@ class SignUp(generic.CreateView):
 
 @login_required(login_url="login", redirect_field_name="profile")
 def profile(request,username=None):
-    projects = models.Project.objects.get_project_of_user(request.user.username)
-    return render(request, 'userprofile/profile.html', {"projects":projects})
+    projects = hubModels.Project.objects.get_project_of_user(request.user.username)
+
+    posts = None
+    # Get all post that the user should be involded or interested in (project member)
+    for project in projects:
+        project_posts = hubModels.Post.objects.get_parent_posts_of_project(project.project_name)
+        if project_posts:
+            if posts:
+                posts = posts | project_posts
+            else:
+                posts = project_posts
+    if posts:
+        # Remove duplicate if needed
+        posts = posts.distinct().order_by("time_posted")
+
+    # Get all children of relevant post
+    children_posts = {}
+    for post in posts:
+        post_id = post.pk
+        children_posts[post_id] = hubModels.Post.objects.get_chilren_of_post(post_id)
+
+
+    return render(request, 'userprofile/profile.html', {"projects":projects,
+                                                        "posts": posts,
+                                                        "children_posts": children_posts})

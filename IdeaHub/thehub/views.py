@@ -15,7 +15,12 @@ def home(request):
 def project(request, project_name):
 	projects = models.Project.objects.get_project_of_user(request.user.username)
 	project = models.Project.objects.get_project_by_name(project_name)
-	return render(request, 'thehub/project-profile.html', {"user": request.user, "projects":projects, "project":project})
+	posts = models.Post.objects.get_parent_posts_of_project(project_name)
+
+	return render(request, 'thehub/project-profile.html', {"user": request.user,
+					"projects":projects,
+					"project":project,
+					"posts": posts})
 
 def chatroom(request):
     """
