@@ -55,7 +55,7 @@ class Project(models.Model):
     category = models.CharField(choices=CATEGORIES, default="Other", max_length=20)
 
     # The owner is the person who creatde the project, whereas the members are ones participating in the project
-    owner = models.OneToOneField("userprofile.MyUser", on_delete=models.CASCADE)
+    owner = models.ForeignKey("userprofile.MyUser", on_delete=models.CASCADE)
     # The owner should be added as member by the backend code
     members = models.ManyToManyField("userprofile.MyUser", related_name="projects")
 
