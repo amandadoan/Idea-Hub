@@ -3,8 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.safestring import mark_safe
 import json
 from . import models
-
-from .models import Project, Post
+from . import forms
 # Create your views here.
 
 @login_required(login_url="login")
@@ -24,3 +23,10 @@ def project(request, project_name):
 					"projects":projects,
 					"project":project,
 					"posts": posts})
+
+@login_required(login_url="login")
+def test(request):
+	"""
+	This view is a view created for the purpose of testing methods,
+	"""
+	return render(request, "thehub/test.html", {"form": forms.ProjectPostForm()})
