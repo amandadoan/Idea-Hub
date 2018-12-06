@@ -11,9 +11,9 @@
 	    	<h6>Project owner: </h6> <p>{{project.owner.first_name}} {{project.owner.last_name}}</p>
 	    </div>
 	    <div class="project-actions">
-	    	<button type="button" class="btn btn-success">Make post</button>
-	    	<button type="button" class="btn btn-primary">Ask to join</button>
-	    	<button type="button" class="btn btn-info">Subscribe only</button>
+	    	<a class="btn btn-success" href="{% url 'makePost' project.project_name %}">Make post</a>
+	    	<a class="btn btn-primary">Ask to join</a>
+	    	<a class="btn btn-info">Subscribe only</a>
 	    </div>
 	  </div>
 	  <div class="column right">
