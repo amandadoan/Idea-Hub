@@ -24,6 +24,12 @@ class ProjectManager(models.Manager):
         Get all projects that the given user owned
         """
         return self.filter(owner__username__iexact=username)
+    
+    def get_project_subscribed_by(self, username):
+        """
+        Get all projects that the given user subscribed
+        """
+        return self.filter(subscribers__username__iexact=username)
 
     def get_project_by_name(self, project_name):
         """
@@ -58,6 +64,9 @@ class Project(models.Model):
     owner = models.ForeignKey("userprofile.MyUser", on_delete=models.CASCADE)
     # The owner should be added as member by the backend code
     members = models.ManyToManyField("userprofile.MyUser", related_name="projects")
+    # The list of subscribers of this project, subcribers will only have the option of normal user but will get update as well
+    # NOTICE: this list does not contains members and owner
+    subscribers = models.ManyToManyField("userprofile.MyUser", related_name="subscriptions")
 
     # Set the manager of this model
     objects = ProjectManager()

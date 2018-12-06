@@ -33,6 +33,8 @@ class SignUp(generic.CreateView):
 @login_required(login_url="login", redirect_field_name="profile")
 def profile(request):
     projects = hubModels.Project.objects.get_project_of_user(request.user.username)
+    subscriptions = hubModels.Project.objects.get_project_subscribed_by(request.user.username)
+
 
     posts = None
     # Get all post that the user should be involded or interested in (project member)
@@ -56,5 +58,6 @@ def profile(request):
 
 
     return render(request, 'userprofile/profile.html', {"projects":projects,
+                                                        "subscriptions": subscriptions,
                                                         "posts": posts,
                                                         "children_posts": children_posts})

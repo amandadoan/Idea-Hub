@@ -9,17 +9,23 @@ from . import forms
 @login_required(login_url="login")
 def home(request):
 	projects = models.Project.objects.get_project_of_user(request.user.username)
-	return render(request, 'thehub/home.html', {"user": request.user, "projects":projects})
+	subscriptions = models.Project.objects.get_project_subscribed_by(request.user.username)
+
+	return render(request, 'thehub/home.html', {"user": request.user, "projects":projects, "subscriptions": subscriptions})
 
 @login_required(login_url="login")
 def project(request, project_name):
 	projects = models.Project.objects.get_project_of_user(request.user.username)
+	subscriptions = models.Project.objects.get_project_subscribed_by(request.user.username)
+
+
 	project = models.Project.objects.get_project_by_name(project_name)
 	# Order all the post by newest first
 	posts = models.Post.objects.get_parent_posts_of_project(project_name).order_by("-time_posted")
 
 	return render(request, 'thehub/project-profile.html', {"user": request.user,
 					"projects":projects,
+                    "subscriptions": subscriptions,
 					"project":project,
 					"posts": posts})
 
