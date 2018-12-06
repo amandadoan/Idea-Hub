@@ -18,15 +18,15 @@ def project(request, project_name):
 	# Order all the post by newest first
 	posts = models.Post.objects.get_parent_posts_of_project(project_name).order_by("-time_posted")
 
-
 	return render(request, 'thehub/project-profile.html', {"user": request.user,
 					"projects":projects,
 					"project":project,
 					"posts": posts})
 
+# TODO: Delete after finished testing
 @login_required(login_url="login")
 def test(request):
 	"""
 	This view is a view created for the purpose of testing methods,
 	"""
-	return render(request, "thehub/test.html", {"form": forms.ProjectPostForm()})
+	return render(request, "thehub/test.html", {"form": forms.GeneralPostForm()})
