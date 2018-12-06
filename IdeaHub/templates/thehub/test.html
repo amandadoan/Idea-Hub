@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-     <form action="{% url 'test' %}" method="post">
+     <form action="{% url 'makePost' 'Idea Hub Project' %}" method="post">
           {{form.as_p}}
           <input type="submit" name="submit" value="Submit">
+          {% csrf_token %}
      </form>
 {% endblock %}

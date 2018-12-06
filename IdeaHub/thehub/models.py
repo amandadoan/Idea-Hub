@@ -1,4 +1,6 @@
 from django.db import models
+from django.http import Http404
+from django.core.exceptions import ObjectDoesNotExist
 
 
 # Create your models here.
@@ -34,12 +36,14 @@ class ProjectManager(models.Manager):
     def get_project_by_name(self, project_name):
         """
         Get the project using name (return a single project, not a query set)
+        
+        Raise: Http404 if not found
         """
         try:
             project = self.get(project_name=project_name)
             return project
-        except:
-            return None
+        except ObjectDoesNotExist:
+            raise Http404("There is no project with the given name in database")
 
 class Project(models.Model):
     """
