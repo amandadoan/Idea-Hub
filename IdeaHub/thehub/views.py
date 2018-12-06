@@ -47,7 +47,7 @@ def makePost(request, project_name):
 		else:
 			form = forms.GeneralPostForm()
 		# TODO: Change the template name
-		return render(request, template_name="thehub/test.html", context={"projects": projects, "form": form})
+		return render(request, template_name="thehub/test.html", context={"projects": projects, "form": form, "project_name": current_project.project_name})
 	elif request.method == "POST":
 		form = forms.MemberPostForm(request.POST)
 		if form.is_valid():

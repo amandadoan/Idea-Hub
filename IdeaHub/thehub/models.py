@@ -31,12 +31,12 @@ class ProjectManager(models.Manager):
         """
         Get all projects that the given user subscribed
         """
-        return self.filter(subscribers__username__iexact=username)
+        return self.filter(subscribers__username__iexact=username).distinct()
 
     def get_project_by_name(self, project_name):
         """
         Get the project using name (return a single project, not a query set)
-        
+
         Raise: Http404 if not found
         """
         try:
