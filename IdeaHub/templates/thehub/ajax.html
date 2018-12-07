@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block javascripts %}
+    <script>
+        function makeAjaxCall() {
+            $.ajax({
+                url: "{% url 'ajax' 'test3' %}",
+                success: function(data) {
+                    console.log(data);
+                },
+                complete: function() {
+                    setTimeout(makeAjaxCall, 2000);
+                }
+            });
+        }
+        $(document).ready(function() {
+            setTimeout(makeAjaxCall, 2000);
+        });
+    </script>
+{% endblock %}
