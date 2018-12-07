@@ -3,11 +3,18 @@ from django.contrib.auth.models import AbstractBaseUser, UserManager, Permission
 from django.utils import timezone
 
 # Create your models here.
+def user_directory_path(instance, filename):
+    """
+    Method to return the path as MEDIA_ROOT/<username>/filename
+    """
+    return "userprofile/{}/{}".format(instance.username, filename)
+
 class MyUser(AbstractBaseUser, PermissionsMixin):
     """
     The user model for the whole application. Also can be used in the admin interface.
     Extending PermissionsMixin to grant the proper permission to different type of users
     """
+
 
     # Basic information of user
     username = models.CharField(max_length=40, unique=True, blank=False)
@@ -16,7 +23,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(blank=False)
     # The profile picture and the date of birth can be i=empty
     date_of_birth = models.DateField(null=True, blank=True)
-    profile_pic = models.ImageField(null=True, blank=True)
+    profile_pic = models.ImageField(null=True, blank=True, upload_to=user_directory_path)
 
     # Management variables for django
     is_staff = models.BooleanField(default=False)
