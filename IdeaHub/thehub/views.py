@@ -71,6 +71,26 @@ def test(request):
 
 
 # TODO: This is the experimenting code with Ajax, transfer them into proper code
+# IDEA: In order for ajax success function to know which post should be updated, we could do the following process:
+# Prepare for ajax: 
+# 	Each post <div> should have an id ="<post_id>"
+# 	Then, get all the div with class="post" and extract their post_id
+# 	Find the maximum id, because the post_id in database is auto-incremented, we will be guarantee that the largest one is the latest.
+# 	Send this id as data of the ajax request back to server, along with other information such as projectname, username...
+# Server side:
+# 	Receive that ajax call, extract the id, and query that post from Model using its id.
+#	If this is a call for user profile update, then return all posts from user's projects (subscribed and members/owner) that is newer
+# 	than the current post from ajax.
+# 	If this is a call for project update, do similar thing, but only get posts of that project.
+# 	REMEMER TO QUERY POST WITH THE DESIRE ORDER
+# 	Send back to ajax.
+# Client ajax success:
+# 	For each post received, check to see whehter it has a parent id
+# 		If it does, then using that parent id to get the parent node from HTML DOM, and add child node properly
+#		If it does not, then just put it at the top of the post section, because the list return will be sorted in desired order
+
+
+
 def as_json(post):
 	parent = post.parent.id if post.parent is not None else ""
 	return dict(id=post.id,
