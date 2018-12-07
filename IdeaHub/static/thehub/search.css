@@ -13,16 +13,6 @@
   position: relative;
 }
 
-.search-form:hover .form-group:hover input.form-control:hover {
-  padding-right: 20px;
-  border: 0 none;
-  background: transparent;
-  box-shadow: none;
-  display:block;
-  color: black;
-  text-shadow: 0 0 0 black;
-}
-
 .search-form .form-group input.form-control {
   padding-right: 20px;
   border: 0 none;
@@ -50,8 +40,10 @@
 
 .search-form .form-group:hover,
 .search-form .form-group.hover {
-  width: 175%;
+  width: 100%;
   border-radius: 4px 25px 25px 4px;
+  color: black;
+  text-shadow: 0 0 0 black;
 }
 .search-form .form-group span.form-control-feedback {
   position: absolute;
