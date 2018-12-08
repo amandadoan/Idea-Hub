@@ -13,7 +13,7 @@ import json
 
 @login_required(login_url="login")
 def home(request):
-	projects = models.Project.objects.get_project_of_user(request.user.username)
+	projects = models.Project.objects.get_all_projects()
 	subscriptions = models.Project.objects.get_project_subscribed_by(request.user.username)
 	categories = models.Project.objects.get_all_categories()
 
