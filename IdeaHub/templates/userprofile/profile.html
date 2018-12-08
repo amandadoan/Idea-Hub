@@ -3,11 +3,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<div class="row">
 	  <div class="column left">
-			{% if user.profile_pic %}
 	    <div class="column inner-left inner-column"><img src="{{user.profile_pic.url}}" width="100px" height="100px"></div>
-			{% else %}
-			<div class="column inner-left inner-column"><img src="../static/thehub/brain-traveling.jpg" width="100px" height="100px"></div>
-			{% endif %}
 			<div class="column inner-right inner-column">Updates and questions unread</div>
 	    <div class="profile-info">
 	    	{{user.first_name}} {{user.last_name}}</br>
@@ -15,7 +11,7 @@
 	  </div>
 	  <div class="column right">
 			{% for post in posts %}
-				<div class="entry">
+				<div id="{{post.id}}" class="entry">
 					<p>
 						<span style="font-weight:bold">{{post.get_type_display}}:</span>
 						{{post.content}}
@@ -23,7 +19,7 @@
 					{% for id, child in children_posts.items %}
 						{% ifequal id post.pk %}
 							{% for child_post in child %}
-								<div class="response">
+								<div id="{{child_post.id}}" class="response">
 									<span style="font-weight:bold">{{child_post.get_type_display}}:</span>
 									{{child_post.content}}
 								</div>

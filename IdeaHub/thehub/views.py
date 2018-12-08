@@ -75,7 +75,7 @@ def test(request):
 # IDEA: In order for ajax success function to know which post should be updated, we could do the following process:
 # Prepare for ajax:
 # 	Each post <div> should have an id ="<post_id>"
-# 	Then, get all the div with class="post" and extract their post_id
+# 	Then, get all the div with class="entry" and "response" and extract their post_id
 # 	Find the maximum id, because the post_id in database is auto-incremented, we will be guarantee that the largest one is the latest.
 # 	Send this id as data of the ajax request back to server, along with other information such as projectname, username...
 # Server side:

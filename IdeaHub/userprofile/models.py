@@ -23,7 +23,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(blank=False)
     # The profile picture and the date of birth can be i=empty
     date_of_birth = models.DateField(null=True, blank=True)
-    profile_pic = models.ImageField(null=True, blank=True, upload_to=user_directory_path)
+    profile_pic = models.ImageField(null=True, blank=True, upload_to=user_directory_path, default="userprofile/default_profile.jpg")
 
     # Management variables for django
     is_staff = models.BooleanField(default=False)
