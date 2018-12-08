@@ -9,7 +9,7 @@
 	    	{{user.first_name}} {{user.last_name}}</br>
 	    </div>
 	  </div>
-	  <div class="column right">
+	  <div id="list_posts" class="column right">
 			{% for post in posts %}
 				<div id="{{post.id}}" class="entry">
 					<p>
@@ -20,15 +20,78 @@
 						{% ifequal id post.pk %}
 							{% for child_post in child %}
 								<div id="{{child_post.id}}" class="response">
-									<span style="font-weight:bold">{{child_post.get_type_display}}:</span>
-									{{child_post.content}}
+									<p>
+										<span style="font-weight:bold">{{child_post.get_type_display}}:</span>
+										{{child_post.content}}
+									</p>
 								</div>
 							{% endfor %}
 						{% endifequal %}
 					{% endfor %}
+					<!-- TODO: WHENEVER updated the code for reponsd button here, update the ajax code as well. -->
 					<button type="button" class="btn btn-primary">Respond</button>
 					</div>
 			{% endfor %}
 	  </div>
 	</div>
+{% endblock %}
+{% block javascripts %}
+<script>
+	function makeAjaxCall() {
+		var posts = $(".entry, .response");
+		var ids = [];
+		
+		for (let index = 0; index < posts.length; index++) {
+			const post = posts[index];
+			ids.push(Number($(post).attr("id")));
+		}
+		var max_id = Math.max(...ids);
+		
+		$.ajax({
+			url: "{% url 'ajaxUserUpdate' user.username %}" + max_id,
+			success: function (data) {
+				console.log(data);
+				data = JSON.parse(data);
+
+				// Loop over the data and update the front-end if needed.
+				for (let index = 0; index < data.length; index++) {
+					const post = data[index];
+
+					var newPostDiv = document.createElement("div");
+					newPostDiv.setAttribute("id", Number(post["id"]).toString());
+
+					var content = document.createElement("p");
+					content.innerHTML = "<span style='font-weight: bold'>" + post["type"] + ": </span>" + post["content"];
+					newPostDiv.appendChild(content);
+
+					if (post["parent"] == "") {
+						// This is a parent post
+						newPostDiv.setAttribute("class", "entry");
+						// A parent post should include the reponse button as well
+						var responseButton = document.createElement("button");
+						responseButton.innerHTML = "<button type='button' class='btn btn-primary'>Respond</button>";
+						newPostDiv.appendChild(responseButton);
+						
+						$("#list_posts").prepend(newPostDiv);
+					} else {
+						// This is a response post
+						newPostDiv.setAttribute("class", "response");
+						// This post need to be under its parent, but BEFORE the respond button
+						// THe space in front of button needs to be there because it is CSS selector #id button:lastchild
+						var responseButton = $("#" + Number(post["parent"]).toString()+" button:last-child");
+						
+						var childSelector = "#" + Number(post["parent"]).toString();
+						$(newPostDiv).insertBefore(responseButton);
+					}
+				}
+			},
+			complete: function () {
+				setTimeout(makeAjaxCall, 2000);
+			}
+		});
+	}
+	$(document).ready(function () {
+		setTimeout(makeAjaxCall, 2000);
+	});
+</script>
 {% endblock %}

@@ -8,6 +8,7 @@ urlpatterns = [
     path("thehub/post/<str:project_name>", views.makePost, name="makePost"),
     # path("thehub/getprojectupdate/<str:project_name>/<int: post_id>",),
     path("thehub/getuserupdate/<str:username>/<int:post_id>", views.getUserUpdate, name="ajaxUserUpdate"),
+    path("thehub/getuserupdate/<str:username>/", views.getUserUpdate, name="ajaxUserUpdate"),
     # Test path
     path("test/", views.test, name="test"),
     path("ajax/", views.ajax_template, name="ajax_template"),
