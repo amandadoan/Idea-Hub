@@ -103,10 +103,16 @@ def as_json(post):
 def ajax_template(request):
 	return render(request, template_name="thehub/ajax.html")
 
-def testAjax(request, username):
+def getUserUpdate(request, username, post_id):
 	"""
-	This view is a test view to deal with ajax request before using Ajax in the main project
+	This view is a used to deal with ajax request for user profile update
 	"""
-	posts = [as_json(post) for post in models.Post.objects.get_posts_of_user(username)]
-
-	return JsonResponse(json.dumps(posts), safe=False)
+	query_posts = [post for post in models.Post.objects.get_post_user_intested(username).order_by("-id")]
+	update_post = []
+	for post in query_posts:
+		if post.id > post_id:
+			update_post.append(post)
+	
+	update_post = [as_json(post) for post in update_post]
+	
+	return JsonResponse(json.dumps(update_post), safe=False)

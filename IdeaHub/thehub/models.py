@@ -33,6 +33,12 @@ class ProjectManager(models.Manager):
         """
         return self.filter(subscribers__username__iexact=username).distinct()
 
+    def get_projects_user_interested(self, username):
+        """
+        Get all projects that the given username is owned, member, or subscribed.
+        """
+        return self.get_project_of_user(username) | self.get_project_subscribed_by(username)
+
     def get_project_by_name(self, project_name):
         """
         Get the project using name (return a single project, not a query set)
@@ -98,6 +104,24 @@ class PostManager(models.Manager):
         """
         return self.filter(user__username__iexact=username)
 
+    def get_post_user_intested(self, username):
+        """
+        Method to get all the posts from projects that the user is owner/member/subscribed.
+
+        Return: QuerySet contains all posts that user should see, distinct.
+        """
+        projects = Project.objects.get_projects_user_interested(username)
+        
+        posts = None
+        for project in projects:
+            if posts is None:
+                posts = self.get_all_posts_of_project(project.project_name)
+            else:
+                # Unify the current set with the new query set
+                posts = posts | self.get_all_posts_of_project(project.project_name)
+
+        return posts
+
     def get_parent_posts_of_project(self, project_name):
         """
         Method to get all the post that are parents(direct comment) of the given project
@@ -110,6 +134,12 @@ class PostManager(models.Manager):
         Method to get all the children of a given post (response to that post)
         """
         return self.filter(parent__pk__iexact=post_id)
+    
+    def get_all_posts_of_project(self, project_name):
+        """
+        Method to get all the post of the given project
+        """
+        return self.filter(project__project_name__iexact=project_name).distinct()
 
 
 class Post(models.Model):

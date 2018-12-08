@@ -4,7 +4,7 @@
         function makeAjaxCall() {
             var parent_posts = $(".entry").attr("id");
             $.ajax({
-                url: "{% url 'ajax' 'test3' %}",
+                url: "{% url 'ajaxUserUpdate' 'admin2' 15 %}",
                 success: function(data) {
                     console.log(data);
                 },
