@@ -26,7 +26,7 @@ class ProjectManager(models.Manager):
         Get all projects that the given user owned
         """
         return self.filter(owner__username__iexact=username)
-    
+
     def get_project_subscribed_by(self, username):
         """
         Get all projects that the given user subscribed
@@ -44,6 +44,15 @@ class ProjectManager(models.Manager):
             return project
         except ObjectDoesNotExist:
             raise Http404("There is no project with the given name in database")
+
+    def get_all_categories(self):
+        """
+        Get all categories in the database
+        """
+        categories = []
+        for category in Project.CATEGORIES:
+            categories.append(category[0])
+        return categories
 
 class Project(models.Model):
     """
@@ -128,4 +137,3 @@ class Post(models.Model):
 
     def __str__(self):
         return self.content
-    

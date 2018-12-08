@@ -15,8 +15,9 @@ import json
 def home(request):
 	projects = models.Project.objects.get_project_of_user(request.user.username)
 	subscriptions = models.Project.objects.get_project_subscribed_by(request.user.username)
+	categories = models.Project.objects.get_all_categories()
 
-	return render(request, 'thehub/home.html', {"user": request.user, "projects":projects, "subscriptions": subscriptions})
+	return render(request, 'thehub/home.html', {"user": request.user, "projects":projects, "subscriptions": subscriptions, "categories": categories})
 
 @login_required(login_url="login")
 def project(request, project_name):
@@ -59,7 +60,7 @@ def makePost(request, project_name, parent_post_id=None):
 			post.project = current_project
 			post.save()
 			return redirect("project", project_name=current_project.project_name)
-	
+
 
 # TODO: Delete after finished testing
 @login_required(login_url="login")
@@ -72,7 +73,7 @@ def test(request):
 
 # TODO: This is the experimenting code with Ajax, transfer them into proper code
 # IDEA: In order for ajax success function to know which post should be updated, we could do the following process:
-# Prepare for ajax: 
+# Prepare for ajax:
 # 	Each post <div> should have an id ="<post_id>"
 # 	Then, get all the div with class="post" and extract their post_id
 # 	Find the maximum id, because the post_id in database is auto-incremented, we will be guarantee that the largest one is the latest.
@@ -109,5 +110,3 @@ def testAjax(request, username):
 	posts = [as_json(post) for post in models.Post.objects.get_posts_of_user(username)]
 
 	return JsonResponse(json.dumps(posts), safe=False)
-	
-
