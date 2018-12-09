@@ -102,7 +102,7 @@ class PostManager(models.Manager):
         """
         Method to get all the posts of the given usename
         """
-        return self.filter(user__username__iexact=username)
+        return self.filter(user__username__iexact=username).distinct()
 
     def get_post_user_intested(self, username):
         """
@@ -120,20 +120,37 @@ class PostManager(models.Manager):
                 # Unify the current set with the new query set
                 posts = posts | self.get_all_posts_of_project(project.project_name)
 
-        return posts
+        return posts.distinct()
+
+    def get_parent_posts_user_interested(self, username):
+        """
+        Method to get all the parent posts that user should see. The children post can be found based on this in views code
+        """
+        projects = Project.objects.get_projects_user_interested(username)
+
+        posts = None
+        for project in projects:
+            if posts is None:
+                posts = self.get_all_posts_of_project(project.project_name).filter(parent__isnull=True)
+            else:
+                # Unify the current set with the new query set
+                posts = posts | self.get_all_posts_of_project(project.project_name).filter(parent__isnull=True)
+
+        return posts.distinct()
+
 
     def get_parent_posts_of_project(self, project_name):
         """
         Method to get all the post that are parents(direct comment) of the given project
         """
         # This query all posts that do not have parent (they are the root)
-        return self.filter(project__project_name__iexact=project_name).filter(parent__isnull=True)
+        return self.filter(project__project_name__iexact=project_name).filter(parent__isnull=True).distinct()
 
     def get_chilren_of_post(self, post_id):
         """
         Method to get all the children of a given post (response to that post)
         """
-        return self.filter(parent__pk__iexact=post_id)
+        return self.filter(parent__id__iexact=post_id).distinct()
     
     def get_all_posts_of_project(self, project_name):
         """

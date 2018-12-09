@@ -27,13 +27,20 @@ def project(request, project_name):
 
 	project = models.Project.objects.get_project_by_name(project_name)
 	# Order all the post by newest first
-	posts = models.Post.objects.get_parent_posts_of_project(project_name).order_by("-time_posted")
+	posts = models.Post.objects.get_parent_posts_of_project(project_name).order_by("-id")
 
-	return render(request, 'thehub/project-profile.html', {"user": request.user,
-					"projects":projects,
-                    "subscriptions": subscriptions,
-					"project":project,
-					"posts": posts})
+	children_posts = {}
+	if posts:
+        # Get all children of relevant post
+		for post in posts:
+			# Let's children post be ordered by oldest first to make a flow for the conversation
+			children_posts[post.id] = models.Post.objects.get_chilren_of_post(post.id)
+
+	return render(request, 'thehub/project-profile.html', {"projects":projects,
+                    										"subscriptions": subscriptions,
+															"project":project,
+															"posts": posts,
+															"children_posts": children_posts})
 
 
 @login_required(login_url="login")
@@ -93,6 +100,9 @@ def test(request):
 
 
 def as_json(post):
+	"""
+	Convert the current post model into a dictionary so it can be passed as json data 
+	"""
 	parent = post.parent.id if post.parent is not None else ""
 	return dict(id=post.id,
              content=post.content,
@@ -117,5 +127,21 @@ def getUserUpdate(request, username, post_id=None):
 											.order_by("id")]
 	
 	update_posts = [as_json(post) for post in query_posts]
-	
 	return JsonResponse(json.dumps(update_posts), safe=False)
+
+@login_required(login_url="login")
+def getProjectUpdate(request, project_name, post_id=None):
+	"""
+	This view is used to handle ajax request for getting new posts updated from ajax.
+	"""
+	# TODO: The project update response should also include update regarding new member as well.
+	# This handles the base case where no post_id is specified to look up
+	if post_id is None:
+		return JsonResponse({})
+	else:
+		posts = [as_json(post) for post in models.Post.objects
+												.get_all_posts_of_project(project_name)
+												.filter(id__gt=post_id)
+												.order_by("-id")]
+		return JsonResponse(json.dumps(posts), safe=False)
+	
