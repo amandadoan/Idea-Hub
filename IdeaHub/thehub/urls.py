@@ -11,6 +11,8 @@ urlpatterns = [
     path("thehub/getprojectupdate/<str:project_name>/", views.getProjectUpdate, name="ajaxProjectUpdate"),
     path("thehub/getuserupdate/<str:username>/<int:post_id>", views.getUserUpdate, name="ajaxUserUpdate"),
     path("thehub/getuserupdate/<str:username>/", views.getUserUpdate, name="ajaxUserUpdate"),
+    # Filter by category
+    path("thehub/filterByCategory/<str:category>/", views.filterProjectByCategory, name="filterByCategory"),
     # Test path
     path("test/", views.test, name="test"),
     path("ajax/", views.ajax_template, name="ajax_template"),

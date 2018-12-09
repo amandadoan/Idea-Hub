@@ -6,7 +6,7 @@
   <div class='wrapper text-center mb-3'>
     <div class="btn-group">
       {% for category in categories %}
-        <a class="mr-4 text-success" style="font-family: 'Oswald', sans-serif;">{{ category }}</a>
+        <a type="button" class="btn btn-link mr-4 text-success" style="font-family: 'Oswald', sans-serif;" href="{% url 'filterByCategory' category %}">{{ category }}</a>
       {% endfor %}
     </div>
   </div>

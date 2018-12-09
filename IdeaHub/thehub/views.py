@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.safestring import mark_safe
+from django.urls import reverse
 
 from django.http import HttpResponse, JsonResponse
 
@@ -106,7 +107,7 @@ def test(request):
 
 
 
-def as_json(post):
+def as_json_post(post):
 	"""
 	Convert the current post model into a dictionary so it can be passed as json data 
 	"""
@@ -133,7 +134,7 @@ def getUserUpdate(request, username, post_id=None):
 											.filter(id__gt=post_id)
 											.order_by("id")]
 	
-	update_posts = [as_json(post) for post in query_posts]
+	update_posts = [as_json_post(post) for post in query_posts]
 	return JsonResponse(json.dumps(update_posts), safe=False)
 
 @login_required(login_url="login")
@@ -146,9 +147,26 @@ def getProjectUpdate(request, project_name, post_id=None):
 	if post_id is None:
 		return JsonResponse({})
 	else:
-		posts = [as_json(post) for post in models.Post.objects
+		posts = [as_json_post(post) for post in models.Post.objects
 												.get_all_posts_of_project(project_name)
 												.filter(id__gt=post_id)
 												.order_by("-id")]
 		return JsonResponse(json.dumps(posts), safe=False)
 	
+def as_json_project(project):
+	"""
+	Method to convert a project to a dictionary for json response
+	"""
+	return dict(project_name = project.name,
+				owner = project.owner,
+				description = project.description,
+				url = reverse("project", args=[project.name]))
+
+@login_required(login_url="login")
+def filterProjectByCategory(request, category):
+	"""
+	Method to filter all projects in database using category
+	"""
+	filtered_projects = models.Project.objects.get_projects_by_category(category)
+	projects = [as_json_project(project) for project in filtered_projects]
+	return JsonResponse(json.dumps(projects), safe=False)
