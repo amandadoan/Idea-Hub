@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container">
   <!-- Categories -->
   <div class='wrapper text-center'>
     <div class="btn-group">
@@ -12,15 +12,17 @@
   </div>
   <!-- Projects -->
   <div class="row">
-      {% for project in projects %}
-      <div class="card my-3 mx-3 col-sm-3">
+    {% for project in projects %}
+      <div class="my-3 col-sm-3">
+        <div class="card">
           <div class="card-body">
             <h5 class="card-title">{{ project.project_name }}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{{ project.owner }}</h6>
             <p class="card-text">{{ project.description }}</p>
           </div>
         </div>
-      {% endfor %}
+      </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}
