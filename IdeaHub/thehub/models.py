@@ -120,7 +120,7 @@ class PostManager(models.Manager):
                 # Unify the current set with the new query set
                 posts = posts | self.get_all_posts_of_project(project.project_name)
 
-        return posts.distinct()
+        return posts.distinct() if posts else None
 
     def get_parent_posts_user_interested(self, username):
         """
@@ -136,7 +136,7 @@ class PostManager(models.Manager):
                 # Unify the current set with the new query set
                 posts = posts | self.get_all_posts_of_project(project.project_name).filter(parent__isnull=True)
 
-        return posts.distinct()
+        return posts.distinct() if posts else None
 
 
     def get_parent_posts_of_project(self, project_name):
