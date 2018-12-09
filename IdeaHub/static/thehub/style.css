@@ -1,9 +1,0 @@
-.btn-link {
-  @each $name, $color in (success: $success, info: $info, warning: $warning, danger: $danger) {
-    &.text-#{$name} {
-      @include hover-focus {
-        color: darken($color, 10%) !important;
-      }
-    }
-  }
-}
