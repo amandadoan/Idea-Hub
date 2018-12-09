@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 	<div class="row">
 		<div class="project-banner">{{project.project_name}}</div>
@@ -14,7 +15,7 @@
 				<p>{{project.owner.first_name}} {{project.owner.last_name}}</p>
 			</div>
 			<div class="project-actions">
-				<a class="btn btn-success" href="{% url 'makePost' project.project_name %}">Make post</a>
+				<a id="make-post" class="btn btn-success">Make post</a>
 				<a class="btn btn-primary">Ask to join</a>
 				<a class="btn btn-info">Subscribe only</a>
 			</div>
@@ -44,6 +45,19 @@
 			{% endfor %}
 		</div>
 	</div>
+
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+	<form action="/your-name/" method="post">
+		<label for="your_name">Your name: </label>
+		<input id="your_name" type="text" name="your_name" value="{{ current_name }}">
+		<input type="submit" value="OK">
+	</form>
+    <a class="btn btn-danger">Cancel</a>
+    <a class="btn btn-success" href="{% url 'makePost' project.project_name %}">Post</a>
+  </div>
+</div>
 {% endblock %}
 {% block javascripts %}
 <script>
@@ -104,4 +118,8 @@
 		setTimeout(makeAjaxCall, 2000);
 	});
 </script>
+<script type="text/javascript" src="{% static "thehub/pop-ups.js" %}"></script>
 {% endblock %}
+
+
+
