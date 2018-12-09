@@ -13,11 +13,17 @@ import json
 
 @login_required(login_url="login")
 def home(request):
-	projects = models.Project.objects.get_all_projects()
-	subscriptions = models.Project.objects.get_project_subscribed_by(request.user.username)
+	user = request.user
+	all_projects = models.Project.objects.get_all_projects()
+	projects = models.Project.objects.get_project_of_user(user.username)
+	subscriptions = models.Project.objects.get_project_subscribed_by(user.username)
 	categories = models.Project.objects.get_all_categories()
 
-	return render(request, 'thehub/home.html', {"user": request.user, "projects":projects, "subscriptions": subscriptions, "categories": categories})
+	return render(request, 'thehub/home.html', {"user": request.user,
+												"all_projects": all_projects,
+												"projects":projects, 
+												"subscriptions": subscriptions, 
+												"categories": categories})
 
 @login_required(login_url="login")
 def project(request, project_name):
@@ -27,10 +33,11 @@ def project(request, project_name):
 
 	project = models.Project.objects.get_project_by_name(project_name)
 	# Order all the post by newest first
-	posts = models.Post.objects.get_parent_posts_of_project(project_name).order_by("-id")
+	posts = models.Post.objects.get_parent_posts_of_project(project_name)
 
 	children_posts = {}
 	if posts:
+		posts = posts.order_by("-id")
         # Get all children of relevant post
 		for post in posts:
 			# Let's children post be ordered by oldest first to make a flow for the conversation

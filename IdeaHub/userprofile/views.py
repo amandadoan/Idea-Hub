@@ -38,10 +38,11 @@ def profile(request):
 
     # Get all post that the user should be involded or interested in (project member)
     # THIS SHOULD INCLUDE PROJECTS IN SUBSCRIPTIONS AS WELL
-    posts = hubModels.Post.objects.get_parent_posts_user_interested(user.username).order_by("-id")
-
+    posts = hubModels.Post.objects.get_parent_posts_user_interested(user.username)
     children_posts = {}
+
     if posts:
+        posts = posts.order_by("-id")
         # Get all children of relevant post
         for post in posts:
             post_id = post.pk
