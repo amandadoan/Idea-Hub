@@ -32,25 +32,16 @@ class SignUp(generic.CreateView):
 
 @login_required(login_url="login", redirect_field_name="profile")
 def profile(request):
-    projects = hubModels.Project.objects.get_project_of_user(request.user.username)
-    subscriptions = hubModels.Project.objects.get_project_subscribed_by(request.user.username)
+    user = request.user
+    projects = hubModels.Project.objects.get_project_of_user(user.username)
+    subscriptions = hubModels.Project.objects.get_project_subscribed_by(user.username)
 
-
-    posts = None
     # Get all post that the user should be involded or interested in (project member)
-    # TODO: THIS SHOULD INCLUDE PROJECTS IN SUBSCRIPTIONS AS WELL
-    for project in (projects | subscriptions):
-        project_posts = hubModels.Post.objects.get_parent_posts_of_project(project.project_name)
-        if project_posts:
-            if posts:
-                posts = posts | project_posts
-            else:
-                posts = project_posts
+    # THIS SHOULD INCLUDE PROJECTS IN SUBSCRIPTIONS AS WELL
+    posts = hubModels.Post.objects.get_parent_posts_user_interested(user.username).order_by("-id")
 
     children_posts = {}
     if posts:
-        # Remove duplicate if needed
-        posts = posts.distinct().order_by("-time_posted")
         # Get all children of relevant post
         for post in posts:
             post_id = post.pk

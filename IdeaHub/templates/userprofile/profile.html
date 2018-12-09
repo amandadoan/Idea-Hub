@@ -9,7 +9,7 @@
 	    	{{user.first_name}} {{user.last_name}}</br>
 	    </div>
 	  </div>
-	  <div id="list_posts" class="column right">
+	  	<div id="list_posts" class="column right">
 			{% for post in posts %}
 				<div id="{{post.id}}" class="entry">
 					<p>
@@ -32,7 +32,7 @@
 					<button type="button" class="btn btn-primary">Respond</button>
 					</div>
 			{% endfor %}
-	  </div>
+	  	</div>
 	</div>
 {% endblock %}
 {% block javascripts %}
