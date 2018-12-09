@@ -104,6 +104,7 @@ def as_json(post):
 def ajax_template(request):
 	return render(request, template_name="thehub/ajax.html")
 
+@login_required(login_url="login")
 def getUserUpdate(request, username, post_id=None):
 	"""
 	This view is a used to deal with ajax request for user profile update
@@ -111,12 +112,10 @@ def getUserUpdate(request, username, post_id=None):
 	# Sort post in ascending order of id, so the older view will be update to front end first when doing looping
 	if post_id is None:
 		return JsonResponse({})
-	query_posts = [post for post in models.Post.objects.get_post_user_intested(username).order_by("id")]
-	update_posts = []
-	for post in query_posts:
-		if post.id > post_id:
-			update_posts.append(post)
+	query_posts = [post for post in models.Post.objects.get_post_user_intested(username)
+											.filter(id__gt=post_id)
+											.order_by("id")]
 	
-	update_posts = [as_json(post) for post in update_posts]
+	update_posts = [as_json(post) for post in query_posts]
 	
 	return JsonResponse(json.dumps(update_posts), safe=False)
