@@ -59,6 +59,12 @@ class ProjectManager(models.Manager):
         for category in Project.CATEGORIES:
             categories.append(category[0])
         return categories
+    
+    def get_projects_by_category(self, category):
+        """
+        Get all projects in the given category
+        """
+        return self.filter(category__iexact=category).distinct()
 
 class Project(models.Model):
     """
@@ -77,7 +83,7 @@ class Project(models.Model):
                     ("Writing", "Writing"),
                     ("Traveling", "Traveling"),
                     ("Other", "Other"))
-    category = models.CharField(choices=CATEGORIES, default="Other", max_length=20)
+    category = models.CharField(choices=CATEGORIES, default="Other", max_length=20, blank=False)
 
     # The owner is the person who creatde the project, whereas the members are ones participating in the project
     owner = models.ForeignKey("userprofile.MyUser", on_delete=models.CASCADE)
