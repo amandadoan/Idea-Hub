@@ -183,3 +183,29 @@ def filterProjectByCategory(request, category):
 		filtered_projects = models.Project.objects.get_projects_by_category(category)
 	projects = [as_json_project(project) for project in filtered_projects]
 	return JsonResponse(json.dumps(projects), safe=False)
+
+@login_required(login_url="login")
+def searchProjectsByKeywords(request, keywords):
+	"""
+	Method to search for project where some keywords appears
+	"""
+	projects = None
+
+	keywordsList = keywords.split()
+
+	for keyword in keywordsList:
+		if projects is not None:
+			projects = projects | models.Project.objects.filter(
+				project_name__icontains=keyword) | models.Project.objects.filter(description__icontains=keyword)
+		else:
+			projects = models.Project.objects.filter(
+				project_name__icontains=keyword) | models.Project.objects.filter(description__icontains=keyword)
+	
+	if projects is not None:
+		projects = projects.distinct()
+		
+		returnedProject = [as_json_project(project) for project in projects]
+		return JsonResponse(json.dumps(returnedProject), safe=False)
+	else:
+		return JsonResponse(json.dumps([]), safe=False)
+
