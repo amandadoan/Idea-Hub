@@ -11,7 +11,7 @@
       {% endfor %}
     </div>
   </div>
-  <hr style="border-color:lightblue">
+  <hr style="border-color: rgb(70, 113, 192);">
   <!-- Projects -->
   <div class="row">
     {% for project in all_projects %}
@@ -47,7 +47,7 @@
           const project = data[i];
           var newProjectView = document.createElement("div");
           newProjectView.setAttribute("class", "col-sm-4 py-2");
-          newProjectView.innerHTML = "<div class='card card-body'> <a href='" + project.url + "' class='card-title'>" + project.project_name + "</a><h6 class='card-subtitle mb-2 text-muted'>" + project.owner + "</h6><p class='card-text'>" + project.description + "</p></div>";
+          newProjectView.innerHTML = "<div class='card card-body' style='border-color:#97D67E;'> <a style='color: rgb(70, 113, 192); font-size: 1.25em; font-weight: bold;' href='" + project.url + "' class='card-title'>" + project.project_name + "</a><h6 class='card-subtitle mb-2 text-muted'>" + project.owner + "</h6><p class='card-text'>" + project.description + "</p></div>";
           $(".row").append(newProjectView);
         }
 			},
