@@ -23,17 +23,12 @@
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white">My projects</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						{% for project in projects %}
-							<a class="dropdown-item" href="{% url 'project' project.project_name %}">{{ project }}</a>
+							<a class="dropdown-item" href="{% url 'project' project.project_name %}">{{ project }} (owner/member)</a>
 						{% endfor %}
-						</div>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-						 aria-expanded="false" style="color:white">Subscriptions</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							{% for project in subscriptions %}
-							<a class="dropdown-item" href="{% url 'project' project.project_name %}">{{ project }}</a>
-							{% endfor %}
+					<div class="dropdown-divider"></div>
+						{% for project in subscriptions %}
+							<a class="dropdown-item" href="{% url 'project' project.project_name %}">{{ project }} (subscribe only)</a>
+						{% endfor %}
 						</div>
 					</li>
 				</ul>

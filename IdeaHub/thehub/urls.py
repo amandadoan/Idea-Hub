@@ -1,11 +1,13 @@
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from . import views
+# from .views import PostCreateView
 
 urlpatterns = [
     path("", views.home, name='home'),
     path("thehub/project/<str:project_name>/", views.project, name="project"),
     path("thehub/post/<str:project_name>", views.makePost, name="makePost"),
+    # path("test0", PostCreateView, name="PostCreateView"),
     # The path without post_id is used to make sure template can be rendered without error
     path("thehub/getprojectupdate/<str:project_name>/<int:post_id>", views.getProjectUpdate, name="ajaxProjectUpdate"),
     path("thehub/getprojectupdate/<str:project_name>/", views.getProjectUpdate, name="ajaxProjectUpdate"),

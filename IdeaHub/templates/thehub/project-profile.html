@@ -49,15 +49,29 @@
 <div id="myModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-	<form action="/your-name/" method="post">
-		<label for="your_name">Your name: </label>
-		<input id="your_name" type="text" name="your_name" value="{{ current_name }}">
-		<input type="submit" value="OK">
+	</br>
+	<form action="{% url 'makePost' project.project_name %}" method="post">
+		{% csrf_token %}
+		<div class="form-group">
+			<label for="type">Type:</label>
+			<select class="form-control" id="type" type="text" name="type">
+				<option value="C">Comment</option>
+				<option value="Q">Question</option>
+				{% if canUpdate == True %}
+					<option value="U">Update</option>
+				{% endif %}
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="content">Message:</label>
+			<textarea id="content" class="form-control"rows="3"></textarea>
+		</div>
+		<button class="btn btn-success float-right">Post</button>
+		<button id="cancel" class="btn btn-danger float-right">Cancel</button>
 	</form>
-    <a class="btn btn-danger">Cancel</a>
-    <a class="btn btn-success" href="{% url 'makePost' project.project_name %}">Post</a>
   </div>
 </div>
+
 {% endblock %}
 {% block javascripts %}
 <script>

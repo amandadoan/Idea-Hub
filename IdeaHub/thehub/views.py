@@ -44,12 +44,23 @@ def project(request, project_name):
 			# Let's children post be ordered by oldest first to make a flow for the conversation
 			children_posts[post.id] = models.Post.objects.get_chilren_of_post(post.id)
 
+	canUpdate = False
+	for a_project in projects:
+		if a_project.project_name == project.project_name:
+			canUpdate = True
+			break
+	if not canUpdate:
+		for subscribed_project in subscriptions:
+			if subscribed_project.project_name == project.project_name:
+				canUpdate = True
+				break
+
 	return render(request, 'thehub/project-profile.html', {"projects":projects,
                     										"subscriptions": subscriptions,
 															"project":project,
 															"posts": posts,
+															"canUpdate": canUpdate,
 															"children_posts": children_posts})
-
 
 @login_required(login_url="login")
 def makePost(request, project_name, parent_post_id=None):
@@ -152,6 +163,10 @@ def getProjectUpdate(request, project_name, post_id=None):
 												.filter(id__gt=post_id)
 												.order_by("-id")]
 		return JsonResponse(json.dumps(posts), safe=False)
+
+# class PostCreateView(CreateView):
+# 	model = Post
+# 	fields = ('content', 'type')
 	
 def as_json_project(project):
 	"""

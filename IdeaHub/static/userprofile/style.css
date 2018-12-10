@@ -148,9 +148,8 @@ h6 {
   width: 80%; /* Could be more or less, depending on screen size */
 }
 
-.modal-content a {
-	float: right;
-	width: 10%;
+.modal-content button{
+	margin-left: 1em;
 }
 
 /* The Close Button */
