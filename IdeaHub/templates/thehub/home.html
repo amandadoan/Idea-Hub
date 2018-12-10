@@ -6,13 +6,13 @@
   <div class='wrapper text-center mb-3'>
     <div class="btn-group">
       {% for category in categories %}
-        <button type="button" class="btn btn-link mr-4 text-success" style="font-family: 'Oswald', sans-serif;">{{ category }}</button>
+        <a type="button" class="btn btn-link mr-4 text-success" style="font-family: 'Oswald', sans-serif;" href="{% url 'filterByCategory' category %}">{{ category }}</a>
       {% endfor %}
     </div>
   </div>
   <!-- Projects -->
   <div class="row">
-    {% for project in projects %}
+    {% for project in all_projects %}
       <div class="col-sm-4 py-2">
         <div class="card card-body">
           <h5 style="font-family: 'Oswald', sans-serif;" class="card-title">{{ project.project_name }}</h5>
