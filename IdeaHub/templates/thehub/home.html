@@ -11,12 +11,13 @@
       {% endfor %}
     </div>
   </div>
+  <hr style="border-color:lightblue">
   <!-- Projects -->
   <div class="row">
     {% for project in all_projects %}
       <div class="col-sm-4 py-2">
-        <div class="card card-body">
-          <a href="{% url 'project' project.project_name %}" class="card-title">{{ project.project_name }}</a>
+        <div class="card card-body" style="border-color:#97D67E;">
+          <a style="color: rgb(70, 113, 192); font-size: 1.25em; font-weight: bold;" href="{% url 'project' project.project_name %}" class="card-title mb-1">{{ project.project_name }}</a>
           <h6 class="card-subtitle mb-2 text-muted">{{ project.owner }}</h6>
           <p class="card-text">{{ project.description }}</p>
         </div>
