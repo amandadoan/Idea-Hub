@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from django.utils.safestring import mark_safe
 from django.urls import reverse
 
@@ -63,30 +64,23 @@ def project(request, project_name):
 															"children_posts": children_posts})
 
 @login_required(login_url="login")
+@require_POST
 def makePost(request, project_name, parent_post_id=None):
 	"""
 	The view to handle creating a post. If parent is said, that means this is a response.
+	This view only accepts the POST request.
 	"""
 	user = request.user
-	projects = models.Project.objects.get_project_of_user(user.username)
 	current_project = models.Project.objects.get_project_by_name(project_name=project_name)
 
-	if request.method == "GET":
-		if current_project in projects:
-			form = forms.MemberPostForm()
-		else:
-			form = forms.GeneralPostForm()
-		# TODO: Change the template name
-		return render(request, template_name="thehub/test.html", context={"projects": projects, "form": form, "project_name": current_project.project_name})
-	elif request.method == "POST":
-		# TODO: The form content cannot be empty. The front end code should check for it, or the backend code here should do something if it is
-		form = forms.MemberPostForm(request.POST)
-		if form.is_valid():
-			post = form.save(commit=False)
-			post.user = user
-			post.project = current_project
-			post.save()
-			return redirect("project", project_name=current_project.project_name)
+	# TODO: The form content cannot be empty. The front end code should check for it, or the backend code here should do something if it is
+	form = forms.MemberPostForm(request.POST)
+	if form.is_valid():
+		post = form.save(commit=False)
+		post.user = user
+		post.project = current_project
+		post.save()
+		return redirect("project", project_name=current_project.project_name)
 
 
 # TODO: Delete after finished testing
