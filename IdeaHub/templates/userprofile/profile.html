@@ -69,7 +69,9 @@
 						newPostDiv.setAttribute("class", "entry");
 						// A parent post should include the reponse button as well
 						var responseButton = document.createElement("button");
-						responseButton.innerHTML = "<button type='button' class='btn btn-primary'>Respond</button>";
+						responseButton.setAttribute("type", "button");
+						responseButton.setAttribute("class", "btn btn-primary");
+						responseButton.textContent = "Respond"
 						newPostDiv.appendChild(responseButton);
 						
 						$("#list_posts").prepend(newPostDiv);

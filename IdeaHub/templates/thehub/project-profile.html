@@ -16,8 +16,15 @@
 			</div>
 			<div class="project-actions">
 				<a id="make-post" class="btn btn-success">Make post</a>
-				<a class="btn btn-primary">Ask to join</a>
-				<a class="btn btn-info">Subscribe only</a>
+				{% if project not in projects and project not in subscriptions %}
+					<a class="btn btn-primary">Ask to join</a>
+					<a class="btn btn-info">Subscribe only</a>
+				{% elif project in subscriptions %}
+					<a class="btn btn-primary">Ask to join</a>
+					<a class="btn btn-info">Unsubscribe</a>
+				{% elif project in projects %}
+					<a class="btn btn-primary">Leave project</a>
+				{% endif %}
 			</div>
 		</div>
 		<div id="list_posts" class="column right">
@@ -107,7 +114,9 @@
 						newPostDiv.setAttribute("class", "entry");
 						// A parent post should include the reponse button as well
 						var responseButton = document.createElement("button");
-						responseButton.innerHTML = "<button type='button' class='btn btn-primary'>Respond</button>";
+						responseButton.setAttribute("type", "button");
+						responseButton.setAttribute("class", "btn btn-primary");
+						responseButton.textContent = "Respond"
 						newPostDiv.appendChild(responseButton);
 
 						$("#list_posts").prepend(newPostDiv);
