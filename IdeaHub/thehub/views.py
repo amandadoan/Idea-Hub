@@ -79,6 +79,7 @@ def makePost(request, project_name, parent_post_id=None):
 		# TODO: Change the template name
 		return render(request, template_name="thehub/test.html", context={"projects": projects, "form": form, "project_name": current_project.project_name})
 	elif request.method == "POST":
+		# TODO: The form content cannot be empty. The front end code should check for it, or the backend code here should do something if it is
 		form = forms.MemberPostForm(request.POST)
 		if form.is_valid():
 			post = form.save(commit=False)
