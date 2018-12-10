@@ -16,7 +16,7 @@
     {% for project in all_projects %}
       <div class="col-sm-4 py-2">
         <div class="card card-body">
-          <h5 class="card-title">{{ project.project_name }}</h5>
+          <a href="{% url 'project' project.project_name %}" class="card-title">{{ project.project_name }}</a>
           <h6 class="card-subtitle mb-2 text-muted">{{ project.owner }}</h6>
           <p class="card-text">{{ project.description }}</p>
         </div>
@@ -46,7 +46,7 @@
           const project = data[i];
           var newProjectView = document.createElement("div");
           newProjectView.setAttribute("class", "col-sm-4 py-2");
-          newProjectView.innerHTML = "<div class='card card-body'> <h5 class='card-title'>" + project.project_name + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + project.owner + "</h6><p class='card-text'>" + project.description + "</p></div>";
+          newProjectView.innerHTML = "<div class='card card-body'> <a href='" + project.url + "' class='card-title'>" + project.project_name + "</a><h6 class='card-subtitle mb-2 text-muted'>" + project.owner + "</h6><p class='card-text'>" + project.description + "</p></div>";
           $(".row").append(newProjectView);
         }
 			},
