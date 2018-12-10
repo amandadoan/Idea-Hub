@@ -5,8 +5,9 @@
   <!-- Categories -->
   <div class='wrapper text-center mb-3'>
     <div class="btn-group">
+        <a type="button" class="category btn btn-link mr-4 text-success" style="font-family: 'Oswald', sans-serif;" href="{% url 'filterByCategory' 'All' %}">All</a>
       {% for category in categories %}
-        <a type="button" class="btn btn-link mr-4 text-success" style="font-family: 'Oswald', sans-serif;" href="{% url 'filterByCategory' category %}">{{ category }}</a>
+        <a type="button" class="category btn btn-link mr-4 text-success" style="font-family: 'Oswald', sans-serif;" href="{% url 'filterByCategory' category %}">{{ category }}</a>
       {% endfor %}
     </div>
   </div>
@@ -23,4 +24,36 @@
     {% endfor %}
   </div>
 </div>
+{% endblock %}
+{% block javascripts %}
+<script>
+
+  $(".category").click(function(event){
+      makeAjaxCall(event, $(this).attr("href"));
+    });
+
+	function makeAjaxCall(event, category_href) {
+    event.preventDefault();
+		$.ajax({
+			url: category_href,
+			success: function (data) {
+				console.log(data);
+				data = JSON.parse(data);
+        $(".row").empty();
+			
+        // Loop over the data and update the front-end if needed.
+				for (let i = 0; i < data.length; i++) {
+          const project = data[i];
+          var newProjectView = document.createElement("div");
+          newProjectView.setAttribute("class", "col-sm-4 py-2");
+          newProjectView.innerHTML = "<div class='card card-body'> <h5 style='font-family: 'Oswald', sans-serif;' class='card-title'>" + project.project_name + "</h5><h6 style='font-family: 'Oswald', sans-serif;' class='card-subtitle mb-2 text-muted'>" + project.owner + "</h6><p style='font-family: 'Oswald', sans-serif;' class='card-text'>" + project.description + "</p></div>";
+          $(".row").append(newProjectView);
+        }
+			},
+			complete: function () {
+				
+			}
+		});
+	};
+</script>
 {% endblock %}
