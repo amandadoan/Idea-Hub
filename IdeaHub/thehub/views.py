@@ -157,16 +157,19 @@ def as_json_project(project):
 	"""
 	Method to convert a project to a dictionary for json response
 	"""
-	return dict(project_name = project.name,
-				owner = project.owner,
+	return dict(project_name = project.project_name,
+				owner = str(project.owner),
 				description = project.description,
-				url = reverse("project", args=[project.name]))
+				url = reverse("project", args=[project.project_name]))
 
 @login_required(login_url="login")
 def filterProjectByCategory(request, category):
 	"""
 	Method to filter all projects in database using category
 	"""
-	filtered_projects = models.Project.objects.get_projects_by_category(category)
+	if (category == 'All'):
+		filtered_projects = models.Project.objects.get_all_projects()	
+	else:
+		filtered_projects = models.Project.objects.get_projects_by_category(category)
 	projects = [as_json_project(project) for project in filtered_projects]
 	return JsonResponse(json.dumps(projects), safe=False)
