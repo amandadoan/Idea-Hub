@@ -62,7 +62,7 @@
 					if (keycode == '13'){
 						var keywords = $("#search").val();
 						ajaxSearch(event, keywords);
-						$("#search").text("");
+						$("#search").val("");
 						return false; // "return false" is the same as calling e.preventDefault and e.stopPropagation()
 					  }
 				});
