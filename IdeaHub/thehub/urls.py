@@ -14,6 +14,8 @@ urlpatterns = [
     # Filter by category
     path("thehub/filterByCategory/<str:category>/", views.filterProjectByCategory, name="filterByCategory"),
     path("thehub/search/<str:keywords>/", views.searchProjectsByKeywords, name="searchProjects"),
+    path("thehub/search/", views.searchProjectsByKeywords, name="searchProjects"),
+
     # Test path
     path("test/", views.test, name="test"),
     path("ajax/", views.ajax_template, name="ajax_template"),

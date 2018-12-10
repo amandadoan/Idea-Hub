@@ -185,7 +185,7 @@ def filterProjectByCategory(request, category):
 	return JsonResponse(json.dumps(projects), safe=False)
 
 @login_required(login_url="login")
-def searchProjectsByKeywords(request, keywords):
+def searchProjectsByKeywords(request, keywords=None):
 	"""
 	Method to search for project where some keywords appears
 	"""
