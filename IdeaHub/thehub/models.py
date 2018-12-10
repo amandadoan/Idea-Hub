@@ -190,3 +190,14 @@ class Post(models.Model):
 
     def __str__(self):
         return self.content
+
+class MemberRequest(models.Model):
+    """
+    The model for requesting to join as a member for a project.
+    """
+    
+    project = models.ForeignKey("Project", on_delete=models.CASCADE, blank=False)
+    user = models.ForeignKey("userprofile.MyUser", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "{} has asked to join {}".format(self.user, self.project)
