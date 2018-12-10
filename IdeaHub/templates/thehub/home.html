@@ -5,9 +5,9 @@
   <!-- Categories -->
   <div class='wrapper text-center mb-3'>
     <div class="btn-group">
-        <a type="button" class="category btn btn-link mr-4 text-success" style="font-family: 'Oswald', sans-serif;" href="{% url 'filterByCategory' 'All' %}">All</a>
+        <a class="category btn btn-link mr-4 text-success"  href="{% url 'filterByCategory' 'All' %}">All</a>
       {% for category in categories %}
-        <a type="button" class="category btn btn-link mr-4 text-success" style="font-family: 'Oswald', sans-serif;" href="{% url 'filterByCategory' category %}">{{ category }}</a>
+        <a class="category btn btn-link mr-4 text-success" href="{% url 'filterByCategory' category %}">{{ category }}</a>
       {% endfor %}
     </div>
   </div>
@@ -16,9 +16,9 @@
     {% for project in all_projects %}
       <div class="col-sm-4 py-2">
         <div class="card card-body">
-          <h5 style="font-family: 'Oswald', sans-serif;" class="card-title">{{ project.project_name }}</h5>
-          <h6 style="font-family: 'Oswald', sans-serif;" class="card-subtitle mb-2 text-muted">{{ project.owner }}</h6>
-          <p style="font-family: 'Oswald', sans-serif;"class="card-text">{{ project.description }}</p>
+          <h5 class="card-title">{{ project.project_name }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ project.owner }}</h6>
+          <p class="card-text">{{ project.description }}</p>
         </div>
       </div>
     {% endfor %}
@@ -46,7 +46,7 @@
           const project = data[i];
           var newProjectView = document.createElement("div");
           newProjectView.setAttribute("class", "col-sm-4 py-2");
-          newProjectView.innerHTML = "<div class='card card-body'> <h5 style='font-family: 'Oswald', sans-serif;' class='card-title'>" + project.project_name + "</h5><h6 style='font-family: 'Oswald', sans-serif;' class='card-subtitle mb-2 text-muted'>" + project.owner + "</h6><p style='font-family: 'Oswald', sans-serif;' class='card-text'>" + project.description + "</p></div>";
+          newProjectView.innerHTML = "<div class='card card-body'> <h5 class='card-title'>" + project.project_name + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + project.owner + "</h6><p class='card-text'>" + project.description + "</p></div>";
           $(".row").append(newProjectView);
         }
 			},
