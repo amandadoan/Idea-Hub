@@ -191,6 +191,19 @@ class Post(models.Model):
     def __str__(self):
         return self.content
 
+
+# ============================================================================================
+
+class MemberRequestManager(models.Manager):
+    """
+    Custom mamanger for the member request model
+    """
+    # ============================================================================================
+
+    def create_request(self, project, user):
+        request = self.create(project=project, user=user)
+        return request
+
 class MemberRequest(models.Model):
     """
     The model for requesting to join as a member for a project.
@@ -198,6 +211,8 @@ class MemberRequest(models.Model):
     
     project = models.ForeignKey("Project", on_delete=models.CASCADE, blank=False)
     user = models.ForeignKey("userprofile.MyUser", on_delete=models.CASCADE)
+
+    objects = MemberRequestManager()
 
     def __str__(self):
         return "{} has asked to join {}".format(self.user, self.project)

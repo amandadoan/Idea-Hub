@@ -96,10 +96,31 @@ def manageSubscription(request, project_name):
 	else:
 		# This is a new subscriber, add this user to the list
 		project.subscribers.add(user)
-	
+	# Reload the project page after finish the subscription
 	return redirect("project", project_name=project_name)
 	
 
+@login_required(login_url="login")
+def manageMemberRequest(request, project_name):
+	"""
+	Method to manage the member request of the given project
+	If a member of this project send in a request, he will leave the project.
+	If other user send in this request, he will created a MemberRequest to the owner and wait for approval.
+	The "Ask to join" button will be disabled if the request is pending
+	"""
+	user = request.user
+	project = models.Project.objects.get_project_by_name(project_name)
+
+	if user in project.members.all():
+		# If this is a current member, this is a "leave" request
+		project.members.remove(user)
+	else:
+		# This is a request to be member
+		# Create the request in database
+		request = models.MemberRequest.objects.create_request(project, user)
+		# TODO: DISABLE THE ASK TO JOIN
+	
+	return redirect("project", project_name=project_name)
 
 
 # TODO: Delete after finished testing

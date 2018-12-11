@@ -18,6 +18,8 @@ urlpatterns = [
     path("thehub/search/", views.searchProjectsByKeywords, name="searchProjects"),
     # Subscribe or unsubscribe url
     path("thehub/subscription/<str:project_name>/", views.manageSubscription, name="manageSubscription"),
+    # Ask to join or leave as member
+    path("thehub/memberrequest/<str:project_name>/", views.manageMemberRequest, name="memberrequest"),
     # Test path
     path("test/", views.test, name="test"),
     path("ajax/", views.ajax_template, name="ajax_template"),
