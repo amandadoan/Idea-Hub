@@ -47,13 +47,13 @@
 						{% endifequal %}
 					{% endfor %}
 					<!-- TODO: WHENEVER updated the code for reponse button here, update the ajax code as well. -->
-					<button type="button" class="btn btn-primary">Respond</button>
+					<button type="button" class="btn btn-primary respond-button">Respond</button>
 				</div>
 			{% endfor %}
 		</div>
 	</div>
 
-<div id="myModal" class="modal">
+<div id="postModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
 	</br>
@@ -72,12 +72,30 @@
 			<label for="content">Message:</label>
 			<textarea name="content" id="content" class="form-control" rows="3"></textarea>
 		</div>
-		<button class="btn btn-success float-right">Post</button>
-		<button id="cancel" class="btn btn-danger float-right">Cancel</button>
+		<input type="submit" class="btn btn-success float-right" value="Post"></input>
+		<button class="cancel btn btn-danger float-right">Cancel</button>
 		{% csrf_token %}
 	</form>
   </div>
 </div>
+
+
+<div id="commentModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+	</br>
+	<form action="{% url 'makePost' project.project_name %}" method="post">
+		<div class="form-group">
+			<label for="content">Message:</label>
+			<textarea name="content" id="content" class="form-control" rows="3"></textarea>
+		</div>
+		<input type="submit" class="btn btn-success float-right" value="Post"></input>
+		<button class="cancel btn btn-danger float-right">Cancel</button>
+		{% csrf_token %}
+	</form>
+  </div>
+</div>
+
 
 {% endblock %}
 {% block javascripts %}
