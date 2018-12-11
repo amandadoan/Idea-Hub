@@ -29,11 +29,24 @@ def home(request):
 
 @login_required(login_url="login")
 def project(request, project_name):
-	projects = models.Project.objects.get_project_of_user(request.user.username)
-	subscriptions = models.Project.objects.get_project_subscribed_by(request.user.username)
+	"""
+	View to render the profile of the given project
+	"""
+	user = request.user
+	# Get all projects and subscribed projects of current user
+	projects = models.Project.objects.get_project_of_user(user.username)
+	subscriptions = models.Project.objects.get_project_subscribed_by(user.username)
 
-
+	# Get the current project that will be displayed
 	project = models.Project.objects.get_project_by_name(project_name)
+
+	# Get the list of project that the current user is asking for membership (pending request)
+	pending_membership = models.MemberRequest.objects.filter(user__exact=user)
+	pending_projects = []
+
+	for pending in pending_membership:
+		pending_projects.append(pending.project)
+
 	# Order all the post by newest first
 	posts = models.Post.objects.get_parent_posts_of_project(project_name)
 
@@ -61,7 +74,8 @@ def project(request, project_name):
 															"project":project,
 															"posts": posts,
 															"canUpdate": canUpdate,
-															"children_posts": children_posts})
+															"children_posts": children_posts,
+															"pending_projects": pending_projects})
 
 @login_required(login_url="login")
 @require_POST

@@ -17,10 +17,14 @@
 			<div class="project-actions">
 				<a id="make-post" class="btn btn-success">Make post</a>
 				{% if project not in projects and project not in subscriptions %}
-					<a class="btn btn-primary" href="{% url 'memberrequest' project.project_name%}">Ask to join</a>
+					{% if project not in pending_projects %}
+						<a class="btn btn-primary" href="{% url 'memberrequest' project.project_name%}">Ask to join</a>
+					{% endif %}
 					<a class="btn btn-info" href="{% url 'manageSubscription' project.project_name%}">Subscribe only</a>
 				{% elif project in subscriptions %}
-					<a class="btn btn-primary" href="{% url 'memberrequest' project.project_name%}">Ask to join</a>
+					{% if project not in pending_projects %}
+						<a class="btn btn-primary" href="{% url 'memberrequest' project.project_name%}">Ask to join</a>
+					{% endif %}
 					<a class="btn btn-info" href="{% url 'manageSubscription' project.project_name%}">Unsubscribe</a>
 				{% elif project in projects %}
 					<a class="btn btn-primary" href="{% url 'memberrequest' project.project_name%}">Leave project</a>
