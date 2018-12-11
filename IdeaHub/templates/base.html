@@ -34,10 +34,11 @@
 				</ul>
 			</div>
 
-			<form action="" class="search-form mr-auto">
+			<form action="" class="search-form mr-auto" method="POST">
+				{% csrf_token %}
 				<div class="form-group has-feedback">
 					<label for="search" class="sr-only ">Search</label>
-					<input type="text" class="form-control" name="search" id="search" placeholder="  Search..">
+					<input type="text" spellcheck="false" class="form-control" name="search" id="search" placeholder="  Search..">
 					<span class="form-control-feedback">
 						<img style="width: 100%;height:100%;" src="\static\thehub\search_icon.png"></img>
 					</span>
@@ -53,7 +54,45 @@
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-	{% block javascripts %}
-	{% endblock %}
+
+		<script>
+		
+				$('#search').keypress(function (event) {
+					var keycode = (event.keyCode ? event.keyCode : event.which);
+					if (keycode == '13'){
+						var keywords = $("#search").val();
+						ajaxSearch(event, keywords);
+						$("#search").val("");
+						return false; // "return false" is the same as calling e.preventDefault and e.stopPropagation()
+					  }
+				});
+		
+				function ajaxSearch(event, keywords) {
+					event.preventDefault();
+					$.ajax({
+						url: "{% url 'searchProjects' %}" + keywords,
+						success: function (data) {
+							console.log(data);
+							console.log("{% url 'searchProjects' %}");
+							data = JSON.parse(data);
+							$(".row").empty();
+							
+							// Loop over the data and update the front-end if needed.
+							for (let i = 0; i < data.length; i++) {
+								  const project = data[i];
+								  var newProjectView = document.createElement("div");
+								  newProjectView.setAttribute("class", "col-sm-4 py-2");
+								  newProjectView.innerHTML = "<div class='card card-body h-100' style='border-color:#97D67E;'> <a style='color: rgb(70, 113, 192); font-size: 1.25em; font-weight: bold;' href='" + project.url + "' class='card-title'>" + project.project_name + "</a><h6 class='card-subtitle mb-2 text-muted'>" + project.owner + "</h6><p class='card-text'>" + project.description + "</p></div>";
+								  $(".row").append(newProjectView);
+							}	
+						},
+						complete: function () {
+								
+						}
+					});
+				};
+				</script>
+		{% block javascripts %}
+		{% endblock %}
 	</body>
 </html>

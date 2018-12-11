@@ -82,6 +82,46 @@ def makePost(request, project_name, parent_post_id=None):
 		post.save()
 		return redirect("project", project_name=current_project.project_name)
 
+@login_required(login_url="login")
+def manageSubscription(request, project_name):
+	"""
+	Method to manage the subscription status of the logged in user with given project.
+	The view will subscribe/unsubscribe the user from the project when it is called, depends on the current status
+	"""
+	user = request.user
+	project = models.Project.objects.get_project_by_name(project_name)
+	if (user in project.subscribers.all()):
+		# This is a current subscriber, remove this user from the list
+		project.subscribers.remove(user)
+	else:
+		# This is a new subscriber, add this user to the list
+		project.subscribers.add(user)
+	# Reload the project page after finish the subscription
+	return redirect("project", project_name=project_name)
+	
+
+@login_required(login_url="login")
+def manageMemberRequest(request, project_name):
+	"""
+	Method to manage the member request of the given project
+	If a member of this project send in a request, he will leave the project.
+	If other user send in this request, he will created a MemberRequest to the owner and wait for approval.
+	The "Ask to join" button will be disabled if the request is pending
+	"""
+	user = request.user
+	project = models.Project.objects.get_project_by_name(project_name)
+
+	if user in project.members.all():
+		# If this is a current member, this is a "leave" request
+		project.members.remove(user)
+	else:
+		# This is a request to be member
+		# Create the request in database
+		request = models.MemberRequest.objects.create_request(project, user)
+		# TODO: DISABLE THE ASK TO JOIN
+	
+	return redirect("project", project_name=project_name)
+
 
 # TODO: Delete after finished testing
 @login_required(login_url="login")
@@ -158,10 +198,6 @@ def getProjectUpdate(request, project_name, post_id=None):
 												.filter(id__gt=post_id)
 												.order_by("-id")]
 		return JsonResponse(json.dumps(posts), safe=False)
-
-# class PostCreateView(CreateView):
-# 	model = Post
-# 	fields = ('content', 'type')
 	
 def as_json_project(project):
 	"""
@@ -183,3 +219,29 @@ def filterProjectByCategory(request, category):
 		filtered_projects = models.Project.objects.get_projects_by_category(category)
 	projects = [as_json_project(project) for project in filtered_projects]
 	return JsonResponse(json.dumps(projects), safe=False)
+
+@login_required(login_url="login")
+def searchProjectsByKeywords(request, keywords=None):
+	"""
+	Method to search for project where some keywords appears
+	"""
+	projects = None
+
+	keywordsList = keywords.split()
+	# Find all projects that contains at least one word within the set of keywords
+	for keyword in keywordsList:
+		if projects is not None:
+			projects = projects | models.Project.objects.filter(
+				project_name__icontains=keyword) | models.Project.objects.filter(description__icontains=keyword)
+		else:
+			projects = models.Project.objects.filter(
+				project_name__icontains=keyword) | models.Project.objects.filter(description__icontains=keyword)
+	
+	if projects is not None:
+		# Remove duplication
+		projects = projects.distinct()
+		returnedProject = [as_json_project(project) for project in projects]
+		return JsonResponse(json.dumps(returnedProject), safe=False)
+	else:
+		return JsonResponse(json.dumps([]), safe=False)
+
