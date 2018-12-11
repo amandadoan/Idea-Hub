@@ -82,6 +82,25 @@ def makePost(request, project_name, parent_post_id=None):
 		post.save()
 		return redirect("project", project_name=current_project.project_name)
 
+@login_required(login_url="login")
+def manageSubscription(request, project_name):
+	"""
+	Method to manage the subscription status of the logged in user with given project.
+	The view will subscribe/unsubscribe the user from the project when it is called, depends on the current status
+	"""
+	user = request.user
+	project = models.Project.objects.get_project_by_name(project_name)
+	if (user in project.subscribers.all()):
+		# This is a current subscriber, remove this user from the list
+		project.subscribers.remove(user)
+	else:
+		# This is a new subscriber, add this user to the list
+		project.subscribers.add(user)
+	
+	return redirect("project", project_name=project_name)
+	
+
+
 
 # TODO: Delete after finished testing
 @login_required(login_url="login")
@@ -158,10 +177,6 @@ def getProjectUpdate(request, project_name, post_id=None):
 												.filter(id__gt=post_id)
 												.order_by("-id")]
 		return JsonResponse(json.dumps(posts), safe=False)
-
-# class PostCreateView(CreateView):
-# 	model = Post
-# 	fields = ('content', 'type')
 	
 def as_json_project(project):
 	"""
@@ -192,7 +207,7 @@ def searchProjectsByKeywords(request, keywords=None):
 	projects = None
 
 	keywordsList = keywords.split()
-
+	# Find all projects that contains at least one word within the set of keywords
 	for keyword in keywordsList:
 		if projects is not None:
 			projects = projects | models.Project.objects.filter(
@@ -202,8 +217,8 @@ def searchProjectsByKeywords(request, keywords=None):
 				project_name__icontains=keyword) | models.Project.objects.filter(description__icontains=keyword)
 	
 	if projects is not None:
+		# Remove duplication
 		projects = projects.distinct()
-		
 		returnedProject = [as_json_project(project) for project in projects]
 		return JsonResponse(json.dumps(returnedProject), safe=False)
 	else:

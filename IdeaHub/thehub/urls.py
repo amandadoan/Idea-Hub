@@ -13,9 +13,11 @@ urlpatterns = [
     path("thehub/getuserupdate/<str:username>/", views.getUserUpdate, name="ajaxUserUpdate"),
     # Filter by category
     path("thehub/filterByCategory/<str:category>/", views.filterProjectByCategory, name="filterByCategory"),
+    # Search projects with given keywords, the empty parameter url is for initial rendering the page
     path("thehub/search/<str:keywords>/", views.searchProjectsByKeywords, name="searchProjects"),
     path("thehub/search/", views.searchProjectsByKeywords, name="searchProjects"),
-
+    # Subscribe or unsubscribe url
+    path("thehub/subscription/<str:project_name>/", views.manageSubscription, name="manageSubscription"),
     # Test path
     path("test/", views.test, name="test"),
     path("ajax/", views.ajax_template, name="ajax_template"),
