@@ -17,7 +17,7 @@ from thehub import models as hubModels
 class SignUp(generic.CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("login")
-    template_name = "userprofile/login.html"
+    template_name = "userprofile/signup.html"
 
     def get(self, request):
         # Customize the get method, the post method is handled for us by built-in function
