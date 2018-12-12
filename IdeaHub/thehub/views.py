@@ -88,7 +88,6 @@ def makePost(request, project_name=None, parent_post_id=None):
 		return HttpResponse("Not found")
 	user = request.user
 	current_project = models.Project.objects.get_project_by_name(project_name=project_name)
-	print(request.POST)
 	# TODO: The form content cannot be empty. The front end code should check for it, or the backend code here should do something if it is
 	form = forms.MemberPostForm(request.POST)
 	if form.is_valid():
@@ -99,6 +98,8 @@ def makePost(request, project_name=None, parent_post_id=None):
 		post.project = current_project
 		post.save()
 		return redirect("project", project_name=current_project.project_name)
+	else:
+		return HttpResponse("The post content cannot be empty")
 
 @login_required(login_url="login")
 def manageSubscription(request, project_name):

@@ -19,7 +19,7 @@
 	  </div>
 	  	<div id="list_posts" class="column right">
 			{% for post in posts %}
-				<div id="{{post.id}}" class="entry {{post.project}}">
+				<div id="{{post.id}}" class="entry" name="{{post.project}}">
 					<p>
 						<span style="font-weight:bold; color:blue">{{post.project.project_name}}</span>
 						<span style="font-weight:bold; color:tomato">{{post.user.username}}</span>
@@ -53,7 +53,7 @@
 <script>	
 	$(".respond-button").click(function(event){
 	event.preventDefault();
-	var innerHTMLstr = "<div class='modal-content'><span class='close'>&times;</span></br><form action='" + "{% url 'makePost' %}" + $(event.target).parent().attr('class').split(' ').pop() + "/" + $(event.target).parent().attr('id') + "' method='post'><div class='form-group'> <label for='content'>Message:</label><textarea name='content' id='content' class='form-control' rows='3'></textarea></div><div class='form-group'><input name='type' style='display: none' value='C'></div><input type='submit' class='btn btn-success float-right' value='Post'></input><button style='margin-right:5px' class='cancel btn btn-danger float-right'>Cancel</button>"; 
+	var innerHTMLstr = "<div class='modal-content'><span class='close'>&times;</span></br><form action='" + "{% url 'makePost' %}" + $(event.target).parent().attr('name') + "/" + $(event.target).parent().attr('id') + "' method='post'><div class='form-group'> <label for='content'>Message:</label><textarea name='content' id='content' class='form-control' rows='3'></textarea></div><div class='form-group'><input name='type' style='display: none' value='C'></div><input type='submit' class='btn btn-success float-right' value='Post'></input><button style='margin-right:5px' class='cancel btn btn-danger float-right'>Cancel</button>"; 
 	var csfr = "<input type='hidden' name='csrfmiddlewaretoken' value='{{ csrf_token }}'></form></div>";
 	$("#modalDisplay").html(innerHTMLstr + csfr);
 	$(".cancel").click(function(event) {
@@ -66,8 +66,7 @@
 	$("#modalDisplay").show();
 	});
 
-
-	function makeAjaxCall() {
+	function getProfileUpdateAjax() {
 		var posts = $(".entry, .response");
 		var ids = [];
 		
@@ -118,12 +117,12 @@
 				}
 			},
 			complete: function () {
-				setTimeout(makeAjaxCall, 2000);
+				setTimeout(getProfileUpdateAjax, 2000);
 			}
 		});
 	}
 	$(document).ready(function () {
-		setTimeout(makeAjaxCall, 2000);
+		setTimeout(getProfileUpdateAjax, 2000);
 	});
 </script>
 {% endblock %}
