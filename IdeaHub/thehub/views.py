@@ -94,7 +94,8 @@ def makePost(request, project_name=None, parent_post_id=None):
 	if form.is_valid():
 		post = form.save(commit=False)
 		post.user = user
-		post.parent =models.Post.objects.get(id=parent_post_id)
+		if parent_post_id is not None:
+			post.parent =models.Post.objects.get(id=parent_post_id)
 		post.project = current_project
 		post.save()
 		return redirect("project", project_name=current_project.project_name)
