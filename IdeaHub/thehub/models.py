@@ -74,7 +74,6 @@ class Project(models.Model):
     project_name = models.CharField(max_length=150, blank=False, primary_key=True)
     description = models.TextField(max_length=None, blank=False)
     created_date = models.DateTimeField(verbose_name="Created date", auto_now_add=True)
-    end_date = models.DateTimeField(verbose_name="Ended date")
     # Category
     CATEGORIES = (("Designing", "Designing"),
                     ("Coding", "Coding"),

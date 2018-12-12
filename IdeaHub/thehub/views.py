@@ -135,7 +135,6 @@ def manageMemberRequest(request, project_name):
 		# This is a request to be member
 		# Create the request in database
 		request = models.MemberRequest.objects.create_request(project, user)
-		# TODO: DISABLE THE ASK TO JOIN
 	
 	return redirect("project", project_name=project_name)
 
