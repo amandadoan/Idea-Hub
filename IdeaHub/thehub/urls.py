@@ -23,6 +23,8 @@ urlpatterns = [
     path("thehub/subscription/<str:project_name>/", views.manageSubscription, name="manageSubscription"),
     # Ask to join or leave as member
     path("thehub/memberrequest/<str:project_name>/", views.manageMemberRequest, name="memberrequest"),
+    path("thehub/memberrequest/<int:member_request_id>/<str:result>", views.approveDeclineMemberRequest, name="approveDeclineMemberRequest"),
+
     # Test path
     path("test/", views.test, name="test"),
     path("ajax/", views.ajax_template, name="ajax_template"),

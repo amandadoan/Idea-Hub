@@ -49,8 +49,19 @@ def profile(request):
             # Let's children post be ordered by oldest first to make a flow for the conversation
             children_posts[post_id] = hubModels.Post.objects.get_chilren_of_post(post_id)
 
+    owned_projects = hubModels.Project.objects.get_project_owned_by(user.username)
+    pending_requests = None
+    for project in owned_projects:
+        if pending_requests is None:
+            pending_requests = hubModels.MemberRequest.objects.get_requests_for_project(project)
+            print(pending_requests)
+        else:
+            pending_requests = pending_requests | hubModels.MemberRequest.objects.get_requests_for_project(project)
+    print(owned_projects)
+    print(pending_requests)
 
     return render(request, 'userprofile/profile.html', {"projects":projects,
                                                         "subscriptions": subscriptions,
                                                         "posts": posts,
-                                                        "children_posts": children_posts})
+                                                        "children_posts": children_posts,
+                                                        "pending_requests": pending_requests})

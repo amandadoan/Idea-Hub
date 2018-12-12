@@ -6,12 +6,12 @@
 	    <div class="column inner-column"><img src="{{user.profile_pic.url}}" width="100%" height="100%"></div>
 	    <div class="pending-requests">
 	    	<h5>Pending member requests</h5>
-	    		{% for post in posts %}
+	    		{% for member_request in pending_requests %}
 		    		<div class="request-card">
-		    			{{post.content}}
+		    			{{member_request}}
 		    			<div class="request-buttons">
-		    				<a class="btn btn-danger">Reject</a>
-		    				<a class="btn btn-success">Accept</a>
+		    				<a class="btn btn-danger" href="{% url 'approveDeclineMemberRequest' member_request.id 'False' %}">Reject</a>
+		    				<a class="btn btn-success" href="{% url 'approveDeclineMemberRequest' member_request.id 'True' %}">Accept</a>
 		    			</div>
 		    		</div>
 	    		{% endfor %}

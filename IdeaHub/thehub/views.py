@@ -138,6 +138,20 @@ def manageMemberRequest(request, project_name):
 	
 	return redirect("project", project_name=project_name)
 
+@login_required(login_url="login")
+def approveDeclineMemberRequest(request, member_request_id, result):
+	if result == "True":
+		member_request = models.MemberRequest.objects.get(id=member_request_id)
+		member_request.project.members.add(member_request.user)
+	
+	models.MemberRequest.objects.filter(id=member_request_id).delete()
+	return redirect("profile")
+
+
+
+
+
+
 
 # TODO: Delete after finished testing
 @login_required(login_url="login")

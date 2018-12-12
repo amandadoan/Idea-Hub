@@ -203,6 +203,10 @@ class MemberRequestManager(models.Manager):
         request = self.create(project=project, user=user)
         return request
 
+    def get_requests_for_project(self, project):
+        return self.filter(project__exact=project)
+
+
 class MemberRequest(models.Model):
     """
     The model for requesting to join as a member for a project.
