@@ -64,18 +64,11 @@ nav{
 }
 
 .inner-column{
-	margin-left: 3%;
+	margin-left: 5%;
 	background-color: #CDF3BF;
-	height: 25%;
+	height: 60%;
 	margin-bottom: 1em;
-}
-
-.inner-left{
-	width: 40%;
-}
-
-.inner-right{
-	width: 50%;
+	width: 90%;
 }
 
 .project-banner{
@@ -90,9 +83,22 @@ nav{
 	text-align: center;
 }
 
-.profile-info{
-	margin-top: 1em;
-	margin-left: 1em;
+
+.pending-requests h5{
+	text-align: center
+}
+
+.request-card{
+	border-color: #CDF3BF;
+	border-style: solid;
+	padding: 5px;
+	border-radius: 4px;
+  	border-width: 2px;
+  	margin-bottom: 5px;
+}
+.request-buttons{
+	margin-left: 55%;
+	color:white;
 }
 
 h6 {
@@ -148,9 +154,6 @@ h6 {
   width: 80%; /* Could be more or less, depending on screen size */
 }
 
-.modal-content button{
-	margin-left: 1em;
-}
 
 /* The Close Button */
 .close {
