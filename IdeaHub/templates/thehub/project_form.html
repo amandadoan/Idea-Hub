@@ -13,3 +13,22 @@
     </div>
 </div>
 {% endblock %}
+{% block javascripts %}
+<script>
+        var formGroups = $('p');
+        for(let i=0; i < formGroups.length; i++) {
+            var ele = formGroups[i];
+            $(ele).replaceWith("<div class='form-group'>" + $(ele).html() + "</div>");
+        }
+        $('select').addClass("custom-select custom-selct-lg");
+        $('textarea').addClass("form-control");
+        $('input').addClass("form-control");
+    
+        $('li').addClass("text-muted");
+        $('.helptext').addClass("text-muted");
+    
+        $('.errorlist li').removeClass("text-muted");
+        $(".errorlist li").attr("style", "color:red");
+    
+    </script>
+{% endblock %}
