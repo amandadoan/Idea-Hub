@@ -21,6 +21,7 @@
 			{% for post in posts %}
 				<div id="{{post.id}}" class="entry {{post.project}}">
 					<p>
+						<span style="font-weight:bold; color:blue">{{post.project.project_name}}</span>
 						<span style="font-weight:bold; color:tomato">{{post.user.username}}</span>
 						<span style="font-weight:bold">{{post.get_type_display}}:</span>
 						{{post.content}}

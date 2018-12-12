@@ -54,11 +54,8 @@ def profile(request):
     for project in owned_projects:
         if pending_requests is None:
             pending_requests = hubModels.MemberRequest.objects.get_requests_for_project(project)
-            print(pending_requests)
         else:
             pending_requests = pending_requests | hubModels.MemberRequest.objects.get_requests_for_project(project)
-    print(owned_projects)
-    print(pending_requests)
 
     return render(request, 'userprofile/profile.html', {"projects":projects,
                                                         "subscriptions": subscriptions,
