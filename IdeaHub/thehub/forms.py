@@ -1,5 +1,6 @@
 from django import forms
 from .models import Post
+from .models import Project
 
 class MemberPostForm(forms.ModelForm):
     """
@@ -25,3 +26,13 @@ class GeneralPostForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["type"].choices = (("Q", "Question"), ("C", "Comment"))
+    
+class ProjectForm(forms.ModelForm):
+    """
+    Form to create a new project for a project as a member.
+    """
+    class Meta:
+        model = Project
+        fields = [
+            "project_name", "description", "category"
+        ]
