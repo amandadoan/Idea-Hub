@@ -11,7 +11,7 @@
 	  </div>
 	  	<div id="list_posts" class="column right">
 			{% for post in posts %}
-				<div id="{{post.id}}" class="entry">
+				<div id="{{post.id}}" class="entry {{post.project}}">
 					<p>
 						<span style="font-weight:bold">{{post.get_type_display}}:</span>
 						{{post.content}}
@@ -29,14 +29,33 @@
 						{% endifequal %}
 					{% endfor %}
 					<!-- TODO: WHENEVER updated the code for reponsd button here, update the ajax code as well. -->
-					<button type="button" class="btn btn-primary">Respond</button>
+					<button type="button" class="btn btn-primary respond-button">Respond</button>
 					</div>
 			{% endfor %}
 	  	</div>
 	</div>
+
+	<div id="modalDisplay" class="modal">
+	</div>
 {% endblock %}
 {% block javascripts %}
-<script>
+<script>	
+	$(".respond-button").click(function(event){
+	event.preventDefault();
+	var innerHTMLstr = "<div class='modal-content'><span class='close'>&times;</span></br><form action='" + "{% url 'makePost' %}" + $(event.target).parent().attr('class').split(' ').pop() + "/" + $(event.target).parent().attr('id') + "' method='post'><div class='form-group'> <label for='content'>Message:</label><textarea name='content' id='content' class='form-control' rows='3'></textarea></div><div class='form-group'><input name='type' style='display: none' value='C'></div><input type='submit' class='btn btn-success float-right' value='Post'></input><button class='cancel btn btn-danger float-right'>Cancel</button>"; 
+	var csfr = "<input type='hidden' name='csrfmiddlewaretoken' value='{{ csrf_token }}'></form></div>";
+	$("#modalDisplay").html(innerHTMLstr + csfr);
+	$(".cancel").click(function(event) {
+		event.preventDefault();
+		$("#modalDisplay").hide();
+	});
+	$(".close").click(function(){
+		$("#modalDisplay").hide();
+	});
+	$("#modalDisplay").show();
+	});
+
+
 	function makeAjaxCall() {
 		var posts = $(".entry, .response");
 		var ids = [];

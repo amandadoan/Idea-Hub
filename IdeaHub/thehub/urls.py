@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path("", views.home, name='home'),
     path("thehub/project/<str:project_name>/", views.project, name="project"),
+    path("thehub/post/", views.makePost, name="makePost"),
     path("thehub/post/<str:project_name>/", views.makePost, name="makePost"),
     path("thehub/post/<str:project_name>/<int:parent_post_id>", views.makePost, name="makePost"),
 

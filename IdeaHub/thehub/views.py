@@ -79,11 +79,13 @@ def project(request, project_name):
 
 @login_required(login_url="login")
 @require_POST
-def makePost(request, project_name, parent_post_id=None):
+def makePost(request, project_name=None, parent_post_id=None):
 	"""
 	The view to handle creating a post. If parent is said, that means this is a response.
 	This view only accepts the POST request.
 	"""
+	if project_name is None:
+		return HttpResponse("Not found")
 	user = request.user
 	current_project = models.Project.objects.get_project_by_name(project_name=project_name)
 	print(request.POST)
