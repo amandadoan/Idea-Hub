@@ -23,13 +23,10 @@ urlpatterns = [
     path("thehub/subscription/<str:project_name>/", views.manageSubscription, name="manageSubscription"),
     # Ask to join or leave as member
     path("thehub/memberrequest/<str:project_name>/", views.manageMemberRequest, name="memberrequest"),
-<<<<<<< Updated upstream
     path("thehub/memberrequest/<int:member_request_id>/<str:result>", views.approveDeclineMemberRequest, name="approveDeclineMemberRequest"),
 
-=======
     # Create new project
     path("thehub/new_project/", views.createProject, name="createProject"),
->>>>>>> Stashed changes
     # Test path
     path("test/", views.test, name="test"),
     path("ajax/", views.ajax_template, name="ajax_template"),
