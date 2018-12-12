@@ -58,16 +58,13 @@ def project(request, project_name):
 			# Let's children post be ordered by oldest first to make a flow for the conversation
 			children_posts[post.id] = models.Post.objects.get_chilren_of_post(post.id)
 
+	# The only people who can post update is member, not subscriber
 	canUpdate = False
 	for a_project in projects:
 		if a_project.project_name == project.project_name:
 			canUpdate = True
 			break
-	if not canUpdate:
-		for subscribed_project in subscriptions:
-			if subscribed_project.project_name == project.project_name:
-				canUpdate = True
-				break
+	
 
 	return render(request, 'thehub/project-profile.html', {"projects":projects,
                     										"subscriptions": subscriptions,
