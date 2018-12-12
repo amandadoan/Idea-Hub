@@ -13,6 +13,7 @@
 			{% for post in posts %}
 				<div id="{{post.id}}" class="entry {{post.project}}">
 					<p>
+						<span style="font-weight:bold; color:tomato">{{post.user.username}}</span>
 						<span style="font-weight:bold">{{post.get_type_display}}:</span>
 						{{post.content}}
 					</p>
@@ -21,6 +22,7 @@
 							{% for child_post in child %}
 								<div id="{{child_post.id}}" class="response">
 									<p>
+										<span style="font-weight:bold; color:tomato">{{child_post.user.username}}</span>
 										<span style="font-weight:bold">{{child_post.get_type_display}}:</span>
 										{{child_post.content}}
 									</p>
@@ -80,7 +82,7 @@
 					newPostDiv.setAttribute("id", Number(post["id"]).toString());
 
 					var content = document.createElement("p");
-					content.innerHTML = "<span style='font-weight: bold'>" + post["type"] + ": </span>" + post["content"];
+					content.innerHTML = "<span style='font-weight: bold; color: tomato'>"+post["username"]+"</span>"+"<span style='font-weight: bold'>" + post["type"] + ": </span>" + post["content"];
 					newPostDiv.appendChild(content);
 
 					if (post["parent"] == "") {
