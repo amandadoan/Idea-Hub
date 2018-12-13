@@ -17,9 +17,14 @@ import json
 def home(request):
 	user = request.user
 	all_projects = models.Project.objects.get_all_projects()
-	projects = models.Project.objects.get_project_of_user(user.username)
-	subscriptions = models.Project.objects.get_project_subscribed_by(user.username)
 	categories = models.Project.objects.get_all_categories()
+
+
+	# Get relevant projects of user
+	# All members and subscribed projects
+	projects = models.Project.objects.get_project_of_user(user.username)
+	# Only subscribed
+	subscriptions = models.Project.objects.get_project_subscribed_by(user.username)
 
 	return render(request, 'thehub/home.html', {"user": request.user,
 												"all_projects": all_projects,
@@ -36,6 +41,8 @@ def project(request, project_name):
 	# Get all projects and subscribed projects of current user
 	projects = models.Project.objects.get_project_of_user(user.username)
 	subscriptions = models.Project.objects.get_project_subscribed_by(user.username)
+	# Only owned projects
+	owned_projects = models.Project.objects.get_project_owned_by(user.username)
 
 	# Get the current project that will be displayed
 	project = models.Project.objects.get_project_by_name(project_name)
@@ -68,6 +75,7 @@ def project(request, project_name):
 
 	return render(request, 'thehub/project-profile.html', {"projects":projects,
                     										"subscriptions": subscriptions,
+                                                        	"owned_projects": owned_projects,
 															"project":project,
 															"posts": posts,
 															"canUpdate": canUpdate,
@@ -290,6 +298,23 @@ class CreateProject(generic.CreateView):
 
 	def get_success_url(self):
 		return reverse_lazy("project", args=[self.object.project_name])
+
+def deleteProject(request, project_name):
+	"""
+	Method to delete a project from the hub
+	"""
+
+	user = request.user
+	owned_projects = models.Project.objects.get_project_owned_by(user.username)
+	project_to_delete = models.Project.objects.get_project_by_name(project_name)
+
+	if project_to_delete in owned_projects:
+		models.Project.objects.filter(project_name=project_name).delete()
+		return redirect("profile")
+	else:
+		return HttpResponse("You are not the owner of this project")
+
+
 
 
 	

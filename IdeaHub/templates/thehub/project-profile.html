@@ -27,7 +27,11 @@
 				{% endif %}
 				<a class="btn btn-info" href="{% url 'manageSubscription' project.project_name%}">Unsubscribe</a>
 			{% elif project in projects %}
-				<a class="btn btn-primary" href="{% url 'memberrequest' project.project_name%}">Leave project</a>
+				{% if project in owned_projects %}
+					<a class="btn btn-danger" href="{% url 'deleteProject' project.project_name%}">Delete project</a>
+				{% else %}
+					<a class="btn btn-primary" href="{% url 'memberrequest' project.project_name%}">Leave project</a>
+				{% endif %}
 			{% endif %}
 		</div>
 	</div>

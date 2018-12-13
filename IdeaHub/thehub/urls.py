@@ -28,6 +28,8 @@ urlpatterns = [
 
     # Create new project
     path("thehub/new_project/", login_required(views.CreateProject.as_view(), login_url="login"), name="createProject"),
+    # Delete a project
+    path("thehub/delete_project/<str:project_name>", views.deleteProject, name="deleteProject"),
     # Test path
     path("test/", views.test, name="test"),
     path("ajax/", views.ajax_template, name="ajax_template"),
