@@ -275,6 +275,10 @@ def searchProjectsByKeywords(request, keywords=None):
 		return JsonResponse(json.dumps([]), safe=False)
 
 class CreateProject(generic.CreateView):
+	"""
+	Class based view to create a new project. Using this generic view will helps us do the form validation easier
+	"""
+
 	form_class = forms.ProjectForm
 	template_name = "thehub/project_form.html"
 
@@ -285,7 +289,7 @@ class CreateProject(generic.CreateView):
 		return HttpResponseRedirect(self.get_success_url())
 
 	def get_success_url(self):
-		return reverse_lazy("project", self.object.project_name)
+		return reverse_lazy("project", args=[self.object.project_name])
 
 
 	
