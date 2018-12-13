@@ -274,21 +274,6 @@ def searchProjectsByKeywords(request, keywords=None):
 	else:
 		return JsonResponse(json.dumps([]), safe=False)
 
-@login_required(login_url="login")
-def createProject(request):
-	"""
-	The view to handle creating a project. This view only accepts the POST request.
-	"""
-	if request.method == "POST":
-		form = forms.ProjectForm(request.POST)
-		if form.is_valid():
-			project = form.save(commit=False)
-			project.owner = request.user
-			project.save()
-			return redirect("project", project_name=project.project_name)
-	if request.method == "GET":
-		return render(request, "thehub/project_form.html", {"form": forms.ProjectForm()})
-
 class CreateProject(generic.CreateView):
 	form_class = forms.ProjectForm
 	template_name = "thehub/project_form.html"
