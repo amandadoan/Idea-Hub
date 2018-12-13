@@ -52,7 +52,7 @@
 <script>
 	function clickRespond(event) {
 		event.preventDefault();
-		var innerHTMLstr = "<div class='modal-content'><span class='close'>&times;</span></br><form action='" + "{% url 'makePost' %}" + $(event.target).parent().attr('name') + "/" + $(event.target).parent().attr('id') + "' method='post'><div class='form-group'> <label for='content'>Message:</label><textarea name='content' id='content' class='form-control' rows='3'></textarea></div><div class='form-group'><input name='type' style='display: none' value='C'></div><input type='submit' class='btn btn-success float-right' value='Post'></input><button style='margin-right:5px' class='cancel btn btn-danger float-right'>Cancel</button>";
+		var innerHTMLstr = "<div class='modal-content'><span class='close'>&times;</span></br><form id='respondForm' action='" + "{% url 'makeRespond' %}" + $(event.target).parent().attr('name') + "/" + $(event.target).parent().attr('id') + "' method='post'><div class='form-group'> <label for='content'>Message:</label><textarea name='content' id='content' class='form-control' rows='3'></textarea></div><div class='form-group'><input name='type' style='display: none' value='C'></div><input type='submit' class='btn btn-success float-right' value='Post'></input><button style='margin-right:5px' class='cancel btn btn-danger float-right'>Cancel</button>";
 		var csfr = "<input type='hidden' name='csrfmiddlewaretoken' value='{{ csrf_token }}'></form></div>";
 		$("#modalDisplay").html(innerHTMLstr + csfr);
 		$(".cancel").click(function (event) {
@@ -63,6 +63,51 @@
 			$("#modalDisplay").hide();
 		});
 		$("#modalDisplay").show();
+
+		// Handle the respond submission using ajax
+		$("#respondForm").submit(function (event) {
+			// Make the form not be submitted
+			event.preventDefault();
+			console.log($("#respondForm").attr("action"));
+			$.ajax({
+				url: $("#respondForm").attr("action"),
+				type: "POST",
+				data: $("#respondForm").serialize(),
+				success: function (data) {
+					console.log($("#respondForm").attr("action"));
+					data = JSON.parse(data);
+
+					// Loop over the data and update the front-end if needed.
+					for (let index = 0; index < data.length; index++) {
+						const post = data[index];
+
+						var newPostDiv = document.createElement("div");
+						newPostDiv.setAttribute("id", Number(post["id"]).toString());
+
+						var content = document.createElement("p");
+						if (post["parent"] == "") {
+							content.innerHTML = "<span style='font-weight: bold; color: blue'>" + post["project"] + "</span> " + "<span style='font-weight: bold; color: tomato'>" + post["user"] + "</span> " + post["content"];
+						} else {
+							content.innerHTML = "<span style='font-weight: bold; color: tomato'>" + post["user"] + ":</span> " + post["content"];
+						}
+						newPostDiv.appendChild(content);
+
+						// This is a response post
+						newPostDiv.setAttribute("class", "response");
+						// This post need to be under its parent, but BEFORE the respond button
+						// THe space in front of button needs to be there because it is CSS selector #id button:lastchild
+						var responseButton = $("#" + Number(post["parent"]).toString() + " button:last-child");
+
+						var childSelector = "#" + Number(post["parent"]).toString();
+						$(newPostDiv).insertBefore(responseButton);
+					}
+				},
+				complete: function () {
+					$("#modalDisplay").hide();
+				}
+			});
+
+		});
 	}
 	
 	$(".respond-button").click(clickRespond);

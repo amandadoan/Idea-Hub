@@ -15,22 +15,22 @@
 			<p>{{project.owner.first_name}} {{project.owner.last_name}}</p>
 		</div>
 		<div class="project-actions">
-			<a id="make-post" class="btn btn-success">Make post</a>
+			<a id="make-post" class="btn btn-warning">Make post</a>
 			{% if project not in projects and project not in subscriptions %}
 				{% if project not in pending_projects %}
-					<a class="btn btn-primary" href="{% url 'memberrequest' project.project_name%}">Ask to join</a>
+					<a class="btn btn-primary" href="{% url 'memberrequest' project.project_name %}">Ask to join</a>
 				{% endif %}
-				<a class="btn btn-info" href="{% url 'manageSubscription' project.project_name%}">Subscribe only</a>
+				<a class="btn btn-info" href="{% url 'manageSubscription' project.project_name %}">Subscribe only</a>
 			{% elif project in subscriptions %}
 				{% if project not in pending_projects %}
-					<a class="btn btn-primary" href="{% url 'memberrequest' project.project_name%}">Ask to join</a>
+					<a class="btn btn-primary" href="{% url 'memberrequest' project.project_name %}">Ask to join</a>
 				{% endif %}
-				<a class="btn btn-info" href="{% url 'manageSubscription' project.project_name%}">Unsubscribe</a>
+				<a class="btn btn-info" href="{% url 'manageSubscription' project.project_name %}">Unsubscribe</a>
 			{% elif project in projects %}
 				{% if project in owned_projects %}
-					<a class="btn btn-danger" href="{% url 'deleteProject' project.project_name%}">Delete project</a>
+					<a class="btn btn-danger" href="{% url 'deleteProject' project.project_name %}">Delete project</a>
 				{% else %}
-					<a class="btn btn-primary" href="{% url 'memberrequest' project.project_name%}">Leave project</a>
+					<a class="btn btn-primary" href="{% url 'memberrequest' project.project_name %}">Leave project</a>
 				{% endif %}
 			{% endif %}
 		</div>

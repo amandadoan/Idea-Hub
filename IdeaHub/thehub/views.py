@@ -82,6 +82,20 @@ def project(request, project_name):
 															"children_posts": children_posts,
 															"pending_projects": pending_projects})
 
+def __createPost(form, user, project, parent_post_id=None):
+	"""
+	Method to create a post from a valid MemberPost form
+	"""
+	post = form.save(commit=False)
+	post.user = user
+	if parent_post_id is not None:
+		post.parent = models.Post.objects.get(id=parent_post_id)
+	post.project = project
+	post.save()
+
+	return post
+	
+
 @login_required(login_url="login")
 @require_POST
 def makePost(request, project_name=None, parent_post_id=None):
@@ -96,15 +110,35 @@ def makePost(request, project_name=None, parent_post_id=None):
 	# TODO: The form content cannot be empty. The front end code should check for it, or the backend code here should do something if it is
 	form = forms.MemberPostForm(request.POST)
 	if form.is_valid():
-		post = form.save(commit=False)
-		post.user = user
-		if parent_post_id is not None:
-			post.parent =models.Post.objects.get(id=parent_post_id)
-		post.project = current_project
-		post.save()
+		__createPost(form, user, current_project, parent_post_id)
 		return redirect("project", project_name=current_project.project_name)
 	else:
 		return HttpResponse("The post content cannot be empty")
+
+@login_required(login_url="login")
+def makeRespond(request, project_name=None, parent_post_id=None):
+	"""
+	The view to handle ajax call when a user respond to a comment
+
+	Return JSON object for front end to render to newly-updated comment
+	"""
+	if project_name is None:
+		return HttpResponse("Not found")
+	user = request.user
+	current_project = models.Project.objects.get_project_by_name(project_name=project_name)
+
+	form = forms.MemberPostForm(request.POST)
+	if form.is_valid():
+		post = __createPost(form, user, current_project, parent_post_id)
+		return_post = [as_json_post(post)]
+
+		return JsonResponse(json.dumps(return_post), safe=False)
+	else:
+		return HttpResponse("Respond must have content")
+
+
+
+
 
 @login_required(login_url="login")
 def manageSubscription(request, project_name):
@@ -298,6 +332,7 @@ class CreateProject(generic.CreateView):
 
 	def get_success_url(self):
 		return reverse_lazy("project", args=[self.object.project_name])
+
 
 def deleteProject(request, project_name):
 	"""

@@ -9,6 +9,8 @@ urlpatterns = [
     path("thehub/post/", views.makePost, name="makePost"),
     path("thehub/post/<str:project_name>/", views.makePost, name="makePost"),
     path("thehub/post/<str:project_name>/<int:parent_post_id>", views.makePost, name="makePost"),
+    path("thehub/respond/", views.makeRespond, name="makeRespond"),
+    path("thehub/respond/<str:project_name>/<int:parent_post_id>", views.makeRespond, name="makeRespond"),
 
     # The path without post_id is used to make sure template can be rendered without error
     path("thehub/getprojectupdate/<str:project_name>/<int:post_id>", views.getProjectUpdate, name="ajaxProjectUpdate"),
