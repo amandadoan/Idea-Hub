@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views as auth_views
 from . import views
 
@@ -26,7 +27,7 @@ urlpatterns = [
     path("thehub/memberrequest/<int:member_request_id>/<str:result>", views.approveDeclineMemberRequest, name="approveDeclineMemberRequest"),
 
     # Create new project
-    path("thehub/new_project/", views.createProject, name="createProject"),
+    path("thehub/new_project/", login_required(views.CreateProject.as_view(), login_url="login"), name="createProject"),
     # Test path
     path("test/", views.test, name="test"),
     path("ajax/", views.ajax_template, name="ajax_template"),

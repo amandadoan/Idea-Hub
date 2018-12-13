@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.utils.safestring import mark_safe
-from django.urls import reverse
-
-from django.http import HttpResponse, JsonResponse
+from django.urls import reverse, reverse_lazy
+from django.views import generic
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 
 
 from . import models
@@ -288,3 +288,19 @@ def createProject(request):
 			return redirect("project", project_name=project.project_name)
 	if request.method == "GET":
 		return render(request, "thehub/project_form.html", {"form": forms.ProjectForm()})
+
+class CreateProject(generic.CreateView):
+	form_class = forms.ProjectForm
+	template_name = "thehub/project_form.html"
+
+	def form_valid(self, form):
+		self.object = form.save(commit=False)
+		self.object.owner = self.request.user
+		self.object.save()
+		return HttpResponseRedirect(self.get_success_url())
+
+	def get_success_url(self):
+		return reverse_lazy("project", self.object.project_name)
+
+
+	
