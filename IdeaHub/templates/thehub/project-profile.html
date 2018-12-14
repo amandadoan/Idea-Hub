@@ -124,7 +124,12 @@
 					newPostDiv.setAttribute("id", Number(post["id"]).toString());
 
 					var content = document.createElement("p");
-					content.innerHTML = "<span style='font-weight: bold; color: tomato'>" + post["user"] + "</span> "+ post["content"];
+					if (post["parent"] == "") {
+						// This is a parent post
+						content.innerHTML = "<span style='font-weight: bold; color: tomato'>" + post["user"] + "</span> " + "<span style='font-weight: bold'>" + post["type"] + ":</span>" + post["content"];
+					} else {
+						content.innerHTML = "<span style='font-weight: bold; color: tomato'>" + post["user"] + ":</span> " + post["content"];
+					}
 					newPostDiv.appendChild(content);
 
 					if (post["parent"] == "") {

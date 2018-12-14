@@ -102,17 +102,19 @@ def makePost(request, project_name=None, parent_post_id=None):
 	"""
 	The view to handle creating a post. If parent is said, that means this is a response.
 	This view only accepts the POST request.
+
+	This view will reload the current project page if the post is created successfully.
 	"""
 	if project_name is None:
 		return HttpResponse("Not found")
 	user = request.user
 	current_project = models.Project.objects.get_project_by_name(project_name=project_name)
-	# TODO: The form content cannot be empty. The front end code should check for it, or the backend code here should do something if it is
 	form = forms.MemberPostForm(request.POST)
 	if form.is_valid():
 		__createPost(form, user, current_project, parent_post_id)
 		return redirect("project", project_name=current_project.project_name)
 	else:
+		# If the form content is empty, this error message will be displayed
 		return HttpResponse("The post content cannot be empty")
 
 @login_required(login_url="login")
@@ -135,8 +137,6 @@ def makeRespond(request, project_name=None, parent_post_id=None):
 		return JsonResponse(json.dumps(return_post), safe=False)
 	else:
 		return HttpResponse("Respond must have content")
-
-
 
 
 
@@ -181,12 +181,25 @@ def manageMemberRequest(request, project_name):
 
 @login_required(login_url="login")
 def approveDeclineMemberRequest(request, member_request_id, result):
-	if result == "True":
-		member_request = models.MemberRequest.objects.get(id=member_request_id)
-		member_request.project.members.add(member_request.user)
+	"""
+	Method to approve or decline a request to join a project.
+
+	Only the owner should have this access.
+	"""
+
+	user = request.user
+	owned_project = models.Project.objects.get_project_owned_by(user.username)
+	member_request = models.MemberRequest.objects.get(id=member_request_id)
+
+	if member_request.project in owned_project and (result=="True" or result=="False"):
+		if result == "True":
+			member_request.project.members.add(member_request.user)
+		models.MemberRequest.objects.filter(id=member_request_id).delete()
+		return redirect("profile")
+	# If this URL is accessed by accident, display the error
+	else:
+		return HttpResponse("You do not have access to this URL or the syntax is invalid")
 	
-	models.MemberRequest.objects.filter(id=member_request_id).delete()
-	return redirect("profile")
 
 
 

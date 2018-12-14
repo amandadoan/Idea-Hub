@@ -137,7 +137,8 @@
 
 					var content = document.createElement("p");
 					if (post["parent"] == "") {
-						content.innerHTML = "<span style='font-weight: bold; color: blue'>" + post["project"] + "</span> " + "<span style='font-weight: bold; color: tomato'>" + post["user"] +  "</span> " + post["content"];
+						// This is a parent post
+						content.innerHTML = "<span style='font-weight: bold; color: blue'>" + post["project"] + "</span> " + "<span style='font-weight: bold; color: tomato'>" + post["user"] +  "</span> " + "<span style='font-weight: bold'>" + post["type"] + ":</span>" + post["content"];
 					} else {
 						content.innerHTML = "<span style='font-weight: bold; color: tomato'>" + post["user"] + ":</span> " + post["content"];
 					}
