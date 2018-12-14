@@ -33,10 +33,14 @@ nav{
 .column {
 	float: left;
 	margin-bottom: 1%;
-	padding: 1em;
+	padding: 0;
 	background-color:#97D67E;
 	height: calc(100vh - 1em);
 	overflow: auto;
+	border-radius: 8px;
+	border: solid 5px #97D67E;
+
+
 }
 
 /* Clear floats after the columns */
@@ -47,15 +51,17 @@ nav{
 }
 
 .entry{
-	background-color: #CDF3BF;
+	background-color: white;
 	padding: 1em 1em 1em 1em;
-	margin-bottom: 1em;
+	margin: 1em;
 	border-radius: 8px;
+	border: solid 1px #97D67E;
 }
 
 .left {
 	width: 30%;
 	margin-left: 3.5%;
+	padding: 1.5em;
 }
 
 .right {
@@ -97,7 +103,7 @@ nav{
   	margin-bottom: 5px;
 }
 .request-buttons{
-	margin-left: 55%;
+	margin-left: 50%;
 	color:white;
 }
 
@@ -117,7 +123,10 @@ h6 {
 }
 
 .response{
-	background-color: #97D67E;
+	background-color: white;
+	border: solid 1px;
+	border-color: #97D67E;
+	margin-bottom: 1em;
 	margin-left: 1.5em;
 	padding-left: 1em;
 	border-radius: 8px;
