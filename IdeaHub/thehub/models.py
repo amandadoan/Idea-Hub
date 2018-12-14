@@ -86,7 +86,7 @@ class Project(models.Model):
 
     # The owner is the person who creatde the project, whereas the members are ones participating in the project
     owner = models.ForeignKey("userprofile.MyUser", on_delete=models.CASCADE)
-    # The owner should be added as member by the backend code
+    # The owner should NOT be added as member
     members = models.ManyToManyField("userprofile.MyUser", related_name="projects")
     # The list of subscribers of this project, subcribers will only have the option of normal user but will get update as well
     # NOTICE: this list does not contains members and owner
@@ -200,6 +200,9 @@ class MemberRequestManager(models.Manager):
     # ============================================================================================
 
     def create_request(self, project, user):
+        """
+        Creating a new request in the database
+        """
         request = self.create(project=project, user=user)
         return request
 

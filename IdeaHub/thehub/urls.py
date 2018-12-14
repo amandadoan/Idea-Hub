@@ -5,10 +5,13 @@ from . import views
 
 urlpatterns = [
     path("", views.home, name='home'),
+    # Path to the project profile view
     path("thehub/project/<str:project_name>/", views.project, name="project"),
+    # The path without the post_id is used for prefilled the html when the page is rendered. It does not have a function
     path("thehub/post/", views.makePost, name="makePost"),
     path("thehub/post/<str:project_name>/", views.makePost, name="makePost"),
     path("thehub/post/<str:project_name>/<int:parent_post_id>", views.makePost, name="makePost"),
+    # Path me make a respond, used by AJAX
     path("thehub/respond/", views.makeRespond, name="makeRespond"),
     path("thehub/respond/<str:project_name>/<int:parent_post_id>", views.makeRespond, name="makeRespond"),
 
@@ -32,8 +35,4 @@ urlpatterns = [
     path("thehub/new_project/", login_required(views.CreateProject.as_view(), login_url="login"), name="createProject"),
     # Delete a project
     path("thehub/delete_project/<str:project_name>", views.deleteProject, name="deleteProject"),
-    # Test path
-    path("test/", views.test, name="test"),
-    path("ajax/", views.ajax_template, name="ajax_template"),
-    # path("ajax_request/<str:username>/", views.testAjax, name="ajax")
 ]
