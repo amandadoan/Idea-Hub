@@ -37,7 +37,7 @@ def profile(request):
     subscriptions = hubModels.Project.objects.get_project_subscribed_by(user.username)
 
     # Get all post that the user should be involded or interested in (project member)
-    # THIS SHOULD INCLUDE PROJECTS IN SUBSCRIPTIONS AS WELL
+    # THIS INCLUDES PROJECTS IN SUBSCRIPTIONS AS WELL
     posts = hubModels.Post.objects.get_parent_posts_user_interested(user.username)
     children_posts = {}
 

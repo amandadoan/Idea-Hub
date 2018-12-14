@@ -200,7 +200,7 @@ def approveDeclineMemberRequest(request, member_request_id, result):
 	else:
 		return HttpResponse("You do not have access to this URL or the syntax is invalid")
 	
-	
+
 def as_json_post(post):
 	"""
 	Convert the current post model into a dictionary so it can be passed as json data 
@@ -234,7 +234,6 @@ def getProjectUpdate(request, project_name, post_id=None):
 	"""
 	This view is used to handle ajax request for getting new posts updated from ajax.
 	"""
-	# TODO: The project update response should also include update regarding new member as well.
 	# This handles the base case where no post_id is specified to look up
 	if post_id is None:
 		return JsonResponse({})
@@ -308,10 +307,10 @@ class CreateProject(generic.CreateView):
 	def get_success_url(self):
 		return reverse_lazy("project", args=[self.object.project_name])
 
-
+@login_required(login_url="login")
 def deleteProject(request, project_name):
 	"""
-	Method to delete a project from the hub
+	Method to delete a project from the hub, this view can only be used by the owner
 	"""
 
 	user = request.user
