@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block title %}
+{{project.project_name}}
+{% endblock %}
+
 {% block content %}
 <div class="row">
 	<div class="project-banner">{{project.project_name}}</div>
