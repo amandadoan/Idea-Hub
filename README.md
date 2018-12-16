@@ -2,7 +2,7 @@
 
 This is a web application for the final project of the Internet Computing course in Fall 2018. The website acts as a place for users to share their own ideas about any type of project such as open source projects, DIY, hobby, voluntary work, charity, etc..., and gather team members to work on the idea.
 
-Team member: Duc Le, Julia Romera, Amanda Doan
+Team member: Duc Le, Julia Romare, Amanda Doan
 
 ## How to use the app
 
